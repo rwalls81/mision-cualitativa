@@ -1,0 +1,851 @@
+<title>Misión Cualitativa</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#F5F3EC; --surface:#FFFFFF; --surface2:#EDE9DD; --ink:#22302B; --muted:#5D6B63;
+  --acc:#0E6B62; --acc-ink:#FFFFFF; --acc-soft:#DCEAE6;
+  --clay:#A8501F; --clay-ink:#FFFFFF; --clay-soft:#F3E2D3;
+  --ok:#2E7D4F; --ok-soft:#DFEEDF; --bad:#A63B2A; --bad-soft:#F4E0DA;
+  --warn:#8A6A1F; --warn-soft:#F1E8CE;
+  --line:#D9D3C3; --code-bg:#22302B; --code-ink:#EAE6DA; --shadow:0 1px 3px rgba(34,48,43,.08),0 6px 18px rgba(34,48,43,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121A17; --surface:#1B2521; --surface2:#232F2A; --ink:#E9E5D9; --muted:#9FAEA5;
+    --acc:#55B3A3; --acc-ink:#0E1B18; --acc-soft:#1E3B36;
+    --clay:#E0824C; --clay-ink:#241209; --clay-soft:#3A2A1E;
+    --ok:#6FBF8B; --ok-soft:#22352A; --bad:#E08874; --bad-soft:#3A241E;
+    --warn:#D9B85C; --warn-soft:#37301C;
+    --line:#32403A; --code-bg:#0C1210; --code-ink:#D8E2DC; --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121A17; --surface:#1B2521; --surface2:#232F2A; --ink:#E9E5D9; --muted:#9FAEA5;
+  --acc:#55B3A3; --acc-ink:#0E1B18; --acc-soft:#1E3B36;
+  --clay:#E0824C; --clay-ink:#241209; --clay-soft:#3A2A1E;
+  --ok:#6FBF8B; --ok-soft:#22352A; --bad:#E08874; --bad-soft:#3A241E;
+  --warn:#D9B85C; --warn-soft:#37301C;
+  --line:#32403A; --code-bg:#0C1210; --code-ink:#D8E2DC; --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 64px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+button{font:inherit;cursor:pointer;border:none;border-radius:10px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+label{font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.field{margin-bottom:14px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand .t{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+.brand .s{font-size:.78rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.btn{padding:12px 18px;font-weight:600}
+.btn-acc{background:var(--acc);color:var(--acc-ink)}
+.btn-ghost{background:transparent;color:var(--acc);border:1px solid var(--line)}
+.btn-clay{background:var(--clay);color:var(--clay-ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-block{width:100%}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px 20px;margin-bottom:22px;box-shadow:var(--shadow)}
+.hero h1{font-size:1.7rem;margin-bottom:8px}
+.hero p{margin:0;color:var(--muted)}
+.kicker{display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.sect{margin:26px 0 12px}
+.sect h2{font-size:1.15rem}
+.sect .sub{font-size:.85rem;color:var(--muted);margin:4px 0 0}
+.cards{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;box-shadow:var(--shadow)}
+.card:hover{border-color:var(--acc)}
+.card .row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.chip-ind{background:var(--acc-soft);color:var(--acc)}
+.chip-eq{background:var(--clay-soft);color:var(--clay)}
+.chip-best{background:var(--surface2);color:var(--muted)}
+.card h3{font-size:1.02rem}
+.card .desc{font-size:.88rem;color:var(--muted);margin:0}
+.card .meta{font-size:.78rem;color:var(--muted)}
+.progress{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:14px 0 18px}
+.progress>div{height:100%;background:var(--acc);border-radius:99px;transition:width .3s ease}
+.qcount{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.situ{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.situ .paso{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--clay);margin-bottom:6px}
+.situ p{margin:0 0 6px}
+.situ .preg{font-weight:600}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;text-align:left;color:var(--ink);line-height:1.4;font-size:.95rem}
+.opt:not([disabled]):hover{border-color:var(--acc);background:var(--acc-soft)}
+.opt.sel-ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.sel-mid{border-color:var(--warn);background:var(--warn-soft)}
+.opt.sel-bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.reveal-ok{border-color:var(--ok);border-style:dashed}
+.opt[disabled]{cursor:default;opacity:.92}
+.feedback{border-radius:12px;padding:13px 14px;margin-top:12px;font-size:.93rem}
+.fb-ok{background:var(--ok-soft);border:1px solid var(--ok)}
+.fb-mid{background:var(--warn-soft);border:1px solid var(--warn)}
+.fb-bad{background:var(--bad-soft);border:1px solid var(--bad)}
+.fb-tag{font-weight:700;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:3px}
+.nav-next{margin-top:16px;display:flex;justify-content:flex-end}
+.result{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 20px;text-align:center;box-shadow:var(--shadow)}
+.result .nivel{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.5rem;margin:6px 0 2px}
+.result .pts{font-size:2.6rem;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
+.result .de{font-size:.9rem;color:var(--muted)}
+.stats{display:flex;justify-content:center;gap:18px;margin:14px 0;font-size:.85rem;color:var(--muted)}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.codebox{background:var(--code-bg);color:var(--code-ink);border-radius:12px;padding:14px;margin:16px 0 8px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.85rem;word-break:break-all;text-align:left;line-height:1.5}
+.codebox .lbl{font-family:"Instrument Sans",sans-serif;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.7;display:block;margin-bottom:6px}
+.note{font-size:.82rem;color:var(--muted)}
+.actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.linkrow{margin-top:26px;text-align:center}
+.linkbtn{background:none;border:none;color:var(--muted);font-size:.82rem;text-decoration:underline;text-underline-offset:3px}
+.docente{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.docente h3{margin-bottom:8px}
+.docente p{font-size:.9rem;color:var(--muted);margin:0 0 10px}
+.val-out{margin-top:12px;border-radius:12px;padding:13px;font-size:.9rem}
+.val-out table{width:100%;border-collapse:collapse;font-size:.88rem}
+.val-out td{padding:4px 6px;vertical-align:top}
+.val-out td:first-child{font-weight:600;white-space:nowrap;color:var(--muted)}
+#qrbox{display:flex;justify-content:center;padding:14px;background:#fff;border-radius:12px;margin-top:10px}
+.back{background:none;border:none;color:var(--acc);font-weight:600;font-size:.9rem;padding:6px 0;display:inline-flex;align-items:center;gap:5px}
+.ctx{background:var(--surface2);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:.93rem}
+.ctx .ct{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--clay);display:block;margin-bottom:5px}
+.footer{margin-top:36px;text-align:center;font-size:.78rem;color:var(--muted)}
+.card.locked{opacity:.6;box-shadow:none}
+.card.locked:hover{border-color:var(--line)}
+.chip-lock{background:var(--surface2);color:var(--muted)}
+.toggles{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.toggles label{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);margin:0;cursor:pointer}
+.toggles input{width:auto;margin-top:3px;accent-color:var(--acc)}
+.msg{font-size:.85rem;margin-top:10px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap"><div id="app"></div>
+<div class="footer">SIM II · Sistemas de Investigación de Mercados II · Universidad Tecnológica de Hermosillo<br>Proyecto “De Sonora para el mundo” · Dr. Raúl Paredes</div>
+</div>
+
+<script id="mc-config">window.MC_CONFIG={"pin":"RP2026","activos":["T1"]};</script>
+<script>
+"use strict";
+const IS_GH = location.hostname.endsWith("github.io");
+const APP_URL = IS_GH ? "https://rwalls81.github.io/mision-cualitativa/" : "https://claude.ai/code/artifact/a234cda5-b429-49d1-8fc2-3fee9f6a984c";
+const GH_EDIT_URL = "https://github.com/rwalls81/mision-cualitativa/edit/main/index.html";
+const QR_SVG = IS_GH ? '<svg width="222" height="222" class="segno"><path transform="scale(6)" class="qrline" stroke="#22302b" d="M2 2.5h7m3 0h1m1 0h3m1 0h2m3 0h1m4 0h7m-33 1h1m5 0h1m1 0h3m1 0h1m2 0h2m1 0h3m3 0h1m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m3 0h1m4 0h1m3 0h1m1 0h1m4 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h1m1 0h1m2 0h5m1 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h2m3 0h3m1 0h1m4 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m2 0h2m3 0h4m3 0h3m2 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h1m3 0h2m1 0h1m6 0h1m-22 1h1m1 0h4m1 0h3m4 0h3m1 0h1m2 0h1m1 0h3m1 0h2m1 0h1m-32 1h1m6 0h2m1 0h2m3 0h1m1 0h3m1 0h1m1 0h1m4 0h3m-30 1h2m1 0h1m1 0h3m1 0h1m2 0h2m5 0h5m3 0h5m-29 1h2m10 0h2m2 0h1m1 0h2m1 0h1m1 0h1m2 0h2m-32 1h4m1 0h4m1 0h2m2 0h1m1 0h4m6 0h2m3 0h1m-32 1h2m2 0h2m1 0h1m3 0h2m5 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-30 1h4m1 0h2m1 0h6m2 0h1m1 0h5m3 0h1m2 0h1m-30 1h1m1 0h4m1 0h2m3 0h2m2 0h1m1 0h1m1 0h1m1 0h4m2 0h1m1 0h1m1 0h1m-33 1h1m2 0h1m2 0h1m2 0h1m2 0h1m2 0h2m1 0h2m3 0h7m-30 1h2m1 0h1m1 0h1m1 0h5m1 0h2m3 0h4m3 0h2m1 0h1m1 0h1m1 0h1m-28 1h2m2 0h3m1 0h2m1 0h1m1 0h2m1 0h3m3 0h1m1 0h2m1 0h1m-32 1h3m4 0h5m4 0h1m1 0h2m1 0h1m1 0h1m3 0h4m-32 1h4m1 0h2m1 0h1m1 0h3m2 0h4m5 0h1m4 0h1m2 0h1m-33 1h1m1 0h2m1 0h1m2 0h1m1 0h5m4 0h1m3 0h1m3 0h3m-30 1h1m2 0h1m2 0h2m1 0h2m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m2 0h1m4 0h2m-33 1h1m2 0h1m1 0h1m1 0h1m2 0h1m3 0h2m1 0h2m1 0h1m2 0h1m2 0h1m3 0h1m1 0h1m-33 1h2m2 0h5m1 0h1m2 0h1m1 0h2m1 0h3m1 0h1m1 0h6m-22 1h3m1 0h1m1 0h1m3 0h1m5 0h1m3 0h1m1 0h2m-32 1h7m4 0h3m1 0h3m1 0h3m1 0h2m1 0h1m1 0h1m1 0h2m-32 1h1m5 0h1m1 0h3m2 0h1m1 0h1m1 0h3m2 0h3m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h2m2 0h3m1 0h1m5 0h7m3 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h10m2 0h1m1 0h1m4 0h1m-33 1h1m1 0h3m1 0h1m2 0h2m1 0h3m1 0h2m1 0h1m4 0h1m2 0h2m1 0h3m-33 1h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h5m6 0h6m-33 1h7m4 0h4m3 0h2m4 0h5"/></svg>' : '<svg width="246" height="246" class="segno"><path transform="scale(6)" class="qrline" stroke="#22302b" d="M2 2.5h7m3 0h2m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m4 0h1m1 0h7m-37 1h1m5 0h1m2 0h1m2 0h2m3 0h3m4 0h1m2 0h1m2 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h3m2 0h2m1 0h1m1 0h4m4 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h1m6 0h4m1 0h1m2 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h2m2 0h1m1 0h3m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h1m1 0h5m3 0h1m1 0h1m5 0h2m2 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m1 0h4m7 0h2m1 0h1m1 0h1m1 0h1m-29 1h1m1 0h5m2 0h1m3 0h2m3 0h1m1 0h2m3 0h2m3 0h5m-32 1h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h2m4 0h1m1 0h3m2 0h2m3 0h3m-36 1h1m1 0h2m2 0h2m3 0h4m2 0h2m1 0h3m1 0h1m2 0h2m1 0h2m3 0h2m-36 1h3m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m4 0h1m2 0h1m1 0h1m2 0h1m1 0h3m2 0h1m-36 1h1m4 0h1m1 0h1m4 0h2m2 0h2m3 0h4m1 0h1m1 0h2m1 0h5m-33 1h1m4 0h2m2 0h2m1 0h2m1 0h3m1 0h1m7 0h1m3 0h1m-36 1h2m1 0h2m1 0h5m2 0h5m2 0h2m4 0h3m2 0h3m2 0h1m-36 1h2m1 0h1m2 0h1m2 0h1m2 0h1m1 0h7m1 0h1m2 0h3m1 0h3m-33 1h1m1 0h1m2 0h2m2 0h1m1 0h1m4 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4m1 0h1m1 0h1m1 0h1m-37 1h4m1 0h1m2 0h3m1 0h1m1 0h2m2 0h1m1 0h1m2 0h4m7 0h2m-34 1h1m2 0h2m1 0h2m5 0h2m2 0h1m1 0h1m3 0h5m1 0h1m3 0h2m-35 1h4m2 0h1m2 0h1m1 0h1m1 0h1m2 0h5m1 0h1m1 0h3m1 0h1m2 0h1m2 0h1m-37 1h2m2 0h1m1 0h1m1 0h1m2 0h1m1 0h3m1 0h1m1 0h1m2 0h5m2 0h2m1 0h1m1 0h1m-30 1h1m1 0h1m2 0h1m1 0h1m1 0h1m3 0h2m3 0h3m2 0h1m4 0h1m1 0h1m-35 1h1m1 0h1m1 0h6m2 0h1m1 0h2m1 0h1m3 0h1m4 0h1m1 0h5m2 0h1m-37 1h1m2 0h1m4 0h3m2 0h4m3 0h1m5 0h3m2 0h2m3 0h1m-36 1h4m1 0h1m1 0h2m1 0h1m2 0h2m2 0h1m1 0h3m2 0h3m1 0h4m1 0h3m-37 1h6m1 0h1m4 0h1m1 0h3m4 0h1m1 0h2m-25 1h1m1 0h1m3 0h2m9 0h2m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m2 0h1m1 0h2m-37 1h1m1 0h2m4 0h2m2 0h3m1 0h1m4 0h1m2 0h1m1 0h1m2 0h3m1 0h1m2 0h1m-37 1h1m1 0h3m1 0h3m2 0h1m4 0h2m2 0h1m1 0h1m1 0h9m1 0h3m-29 1h2m2 0h1m4 0h5m1 0h1m3 0h2m3 0h2m1 0h1m-36 1h7m2 0h2m2 0h5m2 0h2m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h1m5 0h1m1 0h2m2 0h4m1 0h3m1 0h2m5 0h1m3 0h2m-34 1h1m1 0h3m1 0h1m1 0h3m1 0h5m4 0h1m2 0h2m1 0h6m1 0h1m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h4m1 0h1m2 0h1m1 0h4m1 0h2m2 0h2m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h2m2 0h1m1 0h1m2 0h3m2 0h1m5 0h2m-37 1h1m5 0h1m2 0h1m2 0h4m2 0h6m2 0h1m1 0h1m1 0h1m1 0h1m3 0h1m-37 1h7m1 0h2m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h4m1 0h1m2 0h5"/></svg>';
+const PRISTINE = "<!doctype html>\n" + document.documentElement.outerHTML;
+const CONFIG = (window.MC_CONFIG && Array.isArray(window.MC_CONFIG.activos)) ? window.MC_CONFIG : {pin:"RP2026", activos:null};
+/* ================= DATOS: ESCENARIOS ================= */
+const GRUPOS = ["MKT 4-1","MKT 4-2","MKT 4-3","Otro"];
+const SCN = [
+/* ---------- ENTRENAMIENTO POR TEMA (individual) ---------- */
+{
+id:"T1", seccion:"tema", etiqueta:"Tema 1 · Concepto de investigación cualitativa", modo:"individual",
+titulo:"¿Cualitativa o cuantitativa?",
+desc:"Distintos clientes llegan a tu consultora en Hermosillo. Decide el enfoque correcto y defiende los conceptos básicos.",
+contexto:"Eres analista junior en una consultora de mercados en Hermosillo. Hoy te toca atender a varios clientes y cada uno trae una necesidad de información distinta. Tu jefe evaluará si dominas cuándo aplicar el enfoque cualitativo y por qué.",
+pasos:[
+{s:"Un tostador de café de la sierra de Sonora nota que sus clientes jóvenes compran una vez y no regresan. Quiere entender POR QUÉ.",
+q:"¿Qué enfoque le recomiendas?",
+o:[{t:"Cualitativo: entrevistas a profundidad con clientes jóvenes para explorar motivos, actitudes y expectativas.",p:10,f:"Correcto. El 'por qué' del comportamiento —motivaciones, actitudes, emociones— es exactamente el terreno de la investigación cualitativa."},
+{t:"Cuantitativo: una encuesta a 400 personas para tener datos representativos.",p:0,f:"Una encuesta te diría CUÁNTOS no regresan, pero difícilmente el porqué profundo. Primero hay que explorar motivos con enfoque cualitativo."},
+{t:"Ninguno: con la intuición del dueño es suficiente para decidir.",p:0,f:"Decidir sin información es justo lo que un sistema de investigación de mercados evita. La intuición no sustituye a los datos."}]},
+{s:"La dirección de una cadena de tortillerías pide: “medir el porcentaje de hogares de Hermosillo que consume tortilla de harina al menos 3 veces por semana”.",
+q:"¿Qué enfoque corresponde?",
+o:[{t:"Cuantitativo: el objetivo es medir una frecuencia en la población.",p:10,f:"Correcto. Medir porcentajes y frecuencias con representatividad es tarea cuantitativa: instrumento estandarizado y muestra probabilística."},
+{t:"Cualitativo: unas sesiones de grupo bastarían para estimar el porcentaje.",p:0,f:"Las sesiones de grupo no producen porcentajes generalizables: su muestra es pequeña y no probabilística."},
+{t:"Mixto: empezar con sesiones de grupo y después encuestar.",p:5,f:"Combinar enfoques es válido, pero si el objetivo ya está definido como MEDIR una frecuencia, el camino directo es cuantitativo."}]},
+{s:"En la junta de capacitación, tu jefe pregunta por las características de la metodología cualitativa.",
+q:"¿Cuál de estas afirmaciones es correcta?",
+o:[{t:"Es inductiva: parte de los datos para desarrollar comprensión, y es flexible.",p:10,f:"Correcto. La metodología cualitativa es inductiva, flexible y empírica: construye comprensión a partir de lo observado."},
+{t:"Busca generalizar resultados a toda la población con muestras grandes.",p:0,f:"Eso describe al enfoque cuantitativo. La cualitativa busca profundidad y comprensión, no generalización estadística."},
+{t:"Exige instrumentos estandarizados que no pueden modificarse en campo.",p:0,f:"Al contrario: la flexibilidad es una de sus características. Las guías se ajustan conforme se aprende del sujeto de estudio."}]},
+{s:"Un cliente duda de invertir en un estudio cualitativo y pide que le expliques qué gana.",
+q:"¿Cuál es un beneficio real de la investigación cualitativa?",
+o:[{t:"Da profundidad a los datos, contextualiza el entorno y captura detalles y experiencias únicas.",p:10,f:"Correcto. Profundidad, contexto y una visión fresca, natural y holística de los fenómenos: eso aporta la cualitativa."},
+{t:"Garantiza precisión estadística con margen de error conocido.",p:0,f:"La precisión estadística es terreno cuantitativo. La cualitativa aporta comprensión, no márgenes de error."},
+{t:"Elimina por completo el sesgo del investigador.",p:0,f:"Ningún enfoque elimina el sesgo; en la cualitativa el investigador es el instrumento y por eso se documenta y se reconoce como limitación."}]},
+{s:"Un gerente comenta: “la investigación cualitativa no sirve porque sus resultados no son representativos”.",
+q:"¿Cuál es la mejor respuesta profesional?",
+o:[{t:"“No busca representatividad estadística: busca comprender motivaciones y significados. Ambos enfoques se complementan.”",p:10,f:"Correcto. Cada enfoque responde preguntas distintas; muchas investigaciones combinan una fase cualitativa y una cuantitativa."},
+{t:"“Tiene razón: solo la cuantitativa produce información útil.”",p:0,f:"Falso. Sin la cualitativa no entenderías motivos, emociones ni contextos: información clave para decidir en mercadotecnia."},
+{t:"“Sí es representativa siempre que entrevistes a más de 30 personas.”",p:0,f:"El número de entrevistas no convierte un estudio cualitativo en representativo: su muestreo no es probabilístico ni lo pretende."}]},
+{s:"Tu equipo diseñará un cuestionario para un estudio grande, pero nadie conoce aún cómo habla y piensa el consumidor de dulces regionales.",
+q:"¿Cómo conviene combinar los enfoques?",
+o:[{t:"Fase cualitativa exploratoria primero, para descubrir lenguaje y motivos, y con eso diseñar el cuestionario cuantitativo.",p:10,f:"Correcto. Es la combinación clásica: la cualitativa explora y alimenta el diseño del instrumento cuantitativo."},
+{t:"Siempre va primero la encuesta; lo cualitativo es solo un adorno final.",p:0,f:"Encuestar sin explorar produce preguntas mal planteadas con el lenguaje del investigador, no el del consumidor."},
+{t:"Nunca deben combinarse: son metodologías incompatibles.",p:0,f:"Sí pueden combinarse y diseñarse de manera que conjuguen una parte cuantitativa y otra cualitativa."}]},
+{s:"Estás clasificando el material que generó el estudio piloto.",
+q:"¿Cuáles de estos son datos típicamente cualitativos?",
+o:[{t:"Notas de campo, grabaciones de entrevistas y narraciones de los participantes.",p:10,f:"Correcto. La investigación cualitativa extrae descripciones de observaciones: entrevistas, narraciones, notas de campo, grabaciones."},
+{t:"Porcentajes de preferencia y tablas de frecuencias.",p:0,f:"Frecuencias y porcentajes son resultados cuantitativos."},
+{t:"Series de tiempo de ventas mensuales.",p:0,f:"Las series de ventas son datos numéricos internos; alimentan otro subsistema, no son datos cualitativos de campo."}]},
+{s:"Para cerrar la capacitación, tu jefe pregunta dónde encaja la investigación de mercados dentro de la empresa.",
+q:"La investigación de mercados es un subsistema de…",
+o:[{t:"El sistema de información de mercadotecnia (SIM), junto al subsistema interno, el de inteligencia y el analítico.",p:10,f:"Correcto. El SIM integra subsistemas interrelacionados que procesan datos para apoyar la planeación, ejecución y control."},
+{t:"El departamento de contabilidad, porque maneja datos.",p:0,f:"No: manejar datos no lo hace contable. Es parte del sistema de información de mercadotecnia."},
+{t:"El área de ventas, porque de ahí salen los reportes.",p:0,f:"Los reportes de ventas alimentan el subsistema interno; la investigación de mercados es otro subsistema del SIM, con enfoque estratégico."}]}
+]},
+{
+id:"T2", seccion:"tema", etiqueta:"Tema 2 · Métodos de recolección de datos cualitativos", modo:"individual",
+titulo:"Elige tu técnica",
+desc:"Ocho encargos reales, seis técnicas posibles: observación, entrevista, sesión de grupo, panel, mystery shopper y proyectivas.",
+contexto:"La consultora recibió varios encargos de negocios sonorenses. Tu tarea es asignar a cada necesidad de información la técnica de recolección cualitativa más adecuada, y demostrar que conoces sus reglas.",
+pasos:[
+{s:"Un supermercado de Navojoa quiere saber cómo se comportan los clientes frente al anaquel de salsas: qué toman, qué comparan, cuánto tardan… sin interferir.",
+q:"¿Qué técnica aplica?",
+o:[{t:"Observación no participante en el punto de venta.",p:10,f:"Correcto. Cuando el interés es la conducta real y espontánea, se observa: la gente no siempre hace lo que dice que hace."},
+{t:"Entrevistas a profundidad a la salida del súper.",p:5,f:"Útil como complemento, pero el entrevistado narra lo que CREE que hace. Para conducta real frente al anaquel, primero observa."},
+{t:"Una sesión de grupo sobre salsas.",p:0,f:"La sesión de grupo recoge opiniones y reacciones, no el comportamiento real en el punto de venta."}]},
+{s:"Una casa productora de bacanora quiere explorar las motivaciones íntimas y la historia personal detrás del consumo de su bebida tradicional.",
+q:"¿Qué técnica es la más adecuada?",
+o:[{t:"Entrevista a profundidad, uno a uno, con guía de tópicos flexible.",p:10,f:"Correcto. Para motivaciones profundas, historias personales o temas donde la presión social sesga, la entrevista individual es la reina."},
+{t:"Sesión de grupo con 8 consumidores.",p:5,f:"Podría funcionar, pero en temas personales o con carga social los participantes se cuidan frente a otros; la entrevista individual da más profundidad."},
+{t:"Encuesta telefónica de 10 preguntas cerradas.",p:0,f:"Las preguntas cerradas no exploran motivaciones; además es una técnica cuantitativa."}]},
+{s:"Una dulcería regional diseñó tres empaques nuevos y quiere ideas y reacciones espontáneas de consumidores interactuando entre sí.",
+q:"¿Qué técnica eliges?",
+o:[{t:"Sesión de grupo mostrando los tres prototipos como estímulos.",p:10,f:"Correcto. La sesión de grupo aprovecha la interacción: las reacciones de unos detonan ideas en otros, ideal para evaluar conceptos y empaques."},
+{t:"Panel de consumidores durante 6 meses.",p:0,f:"El panel sirve para seguir cambios en el tiempo, no para una evaluación puntual de conceptos."},
+{t:"Comprador misterioso en las sucursales.",p:0,f:"El mystery shopper evalúa la experiencia de servicio, no conceptos de empaque."}]},
+{s:"Una marca de café de Cananea quiere saber cómo evoluciona la percepción de su nueva mezcla en los MISMOS consumidores a lo largo de 6 meses.",
+q:"¿Qué técnica corresponde?",
+o:[{t:"Panel de consumidores: el mismo grupo reporta periódicamente durante el semestre.",p:10,f:"Correcto. La esencia del panel es medir repetidamente a la misma muestra para ver cómo cambian percepciones y hábitos en el tiempo."},
+{t:"Una sesión de grupo única al final del semestre.",p:0,f:"Una sola sesión no captura la evolución; solo la foto final. Se pierde todo el proceso de cambio."},
+{t:"Observación encubierta en cafeterías.",p:0,f:"Observar no te dice cómo cambia la percepción interna de las mismas personas a lo largo del tiempo."}]},
+{s:"Una cadena de carnicerías sospecha que la atención al cliente varía mucho entre sucursales y quiere evaluarla tal como la vive un cliente común.",
+q:"¿Qué técnica aplica?",
+o:[{t:"Comprador misterioso con guion y criterios de evaluación definidos.",p:10,f:"Correcto. El mystery shopper vive la experiencia como cliente real y la registra contra estándares de servicio definidos."},
+{t:"Encuesta de salida en cada sucursal.",p:5,f:"Da percepciones de clientes, pero es cuantitativa y el personal se comporta distinto si sabe que se evalúa. El misterioso ve la operación real."},
+{t:"Entrevistar a los empleados sobre su propio servicio.",p:0,f:"El empleado difícilmente reporta sus fallas; necesitas la vivencia del cliente, no la autoevaluación del personal."}]},
+{s:"En las entrevistas sobre una marca de harina, notas que la gente no puede o no quiere expresar directamente lo que siente hacia la marca.",
+q:"¿Qué recurso usas?",
+o:[{t:"Técnicas proyectivas: asociación de palabras, frases incompletas o personificación de la marca.",p:10,f:"Correcto. Las proyectivas rodean la barrera racional: el participante 'proyecta' actitudes que no expresaría de forma directa."},
+{t:"Pedirle al entrevistado que sea más honesto.",p:0,f:"No es falta de honestidad: muchas actitudes no son conscientes o son socialmente incómodas. Se necesita una técnica indirecta."},
+{t:"Cambiar a un cuestionario de opción múltiple.",p:0,f:"Cerrar las preguntas reduce aún más la expresión; es el camino contrario."}]},
+{s:"Van a rentar una cámara de Gesell para el estudio de la dulcería.",
+q:"¿Para qué sirve la cámara de Gesell?",
+o:[{t:"Permite que el equipo y el cliente observen la sesión de grupo sin ser vistos, a través de un espejo unidireccional.",p:10,f:"Correcto. La cámara de Gesell tiene dos ambientes separados por un espejo de visión unilateral: en uno sucede la sesión, en el otro se observa y registra."},
+{t:"Es un equipo para grabar audio de alta fidelidad en campo.",p:0,f:"No es un equipo de audio: es un espacio de dos ambientes con espejo unidireccional para observar sin interferir."},
+{t:"Sirve para entrevistar a dos personas al mismo tiempo.",p:0,f:"El número de entrevistados no tiene que ver: es una sala de observación no intrusiva."}]},
+{s:"Tu equipo hará observación dentro de una tienda (espacio privado) y registrará comportamiento de clientes.",
+q:"¿Cuál es la conducta ética correcta?",
+o:[{t:"Contar con autorización del establecimiento, no grabar rostros sin permiso y resguardar la identidad de las personas.",p:10,f:"Correcto. La generación y resguardo de información exige ética y responsabilidad: autorización, anonimato y uso exclusivo para la investigación."},
+{t:"Grabar de forma oculta: es válido porque es para una investigación escolar.",p:0,f:"Que sea escolar no elimina la obligación ética: en espacios privados se requiere autorización y respeto a la identidad de las personas."},
+{t:"Publicar los videos en redes como evidencia del trabajo.",p:0,f:"Los registros de campo son confidenciales: se usan para el análisis, nunca para exhibir a personas."}]}
+]},
+{
+id:"T3", seccion:"tema", etiqueta:"Tema 3 · Proceso de investigación de mercados", modo:"individual",
+titulo:"El proceso maestro",
+desc:"Acompaña a “Dulces La Uresana” por los pasos del proceso de investigación con enfoque cualitativo, del planteamiento a las limitaciones.",
+contexto:"“Dulces La Uresana”, fábrica artesanal de Ures, vende bien a familias y turistas, pero casi nada a los jóvenes de Hermosillo. Te contrataron para dirigir el proceso completo de investigación cualitativa. Cada paso del proceso es una decisión.",
+pasos:[
+{s:"Paso 1 · Planteamiento del problema. El dueño dice: “el problema es que necesitamos más publicidad”.",
+q:"¿Cuál es el mejor planteamiento del problema?",
+o:[{t:"“Se desconocen las percepciones y motivaciones de los jóvenes de 18 a 25 años de Hermosillo respecto a los dulces regionales, lo que impide diseñar estrategias para ese segmento.”",p:10,f:"Correcto. Un buen planteamiento delimita qué se desconoce, en quién, dónde y por qué importa. No adelanta soluciones."},
+{t:"“El problema es que falta publicidad en redes sociales.”",p:0,f:"Eso es una solución disfrazada de problema. Si partes de ahí, la investigación nace sesgada."},
+{t:"“Los jóvenes ya no valoran nada de lo regional.”",p:0,f:"Es un juicio sin evidencia, no un planteamiento: prejuzga el resultado antes de investigar."}]},
+{s:"Paso 2 · Definición de los objetivos. Toca redactar el objetivo general del estudio.",
+q:"¿Cuál es un objetivo de investigación cualitativa bien formulado?",
+o:[{t:"“Comprender las percepciones, asociaciones y ocasiones de consumo de los dulces regionales entre jóvenes de 18 a 25 años de Hermosillo.”",p:10,f:"Correcto. Verbos como comprender, explorar o descubrir corresponden al enfoque cualitativo, con sujeto y ámbito delimitados."},
+{t:"“Medir el porcentaje de jóvenes que compra dulces regionales cada mes.”",p:0,f:"'Medir porcentajes' es un objetivo cuantitativo; no corresponde al enfoque de este estudio."},
+{t:"“Aumentar las ventas 20% en el segmento joven durante el próximo año.”",p:0,f:"Ese es un objetivo de negocio, no de investigación. La investigación produce comprensión, no ventas directas."}]},
+{s:"Paso 3 · Investigación preliminar. El equipo quiere salir a entrevistar mañana mismo.",
+q:"¿Qué haces primero?",
+o:[{t:"Revisar fuentes secundarias: datos de INEGI, estudios previos sobre consumo de dulces, redes sociales de la marca y de la competencia.",p:10,f:"Correcto. La investigación preliminar aprovecha lo que ya existe: contexto, cifras y antecedentes que afinan el problema antes del campo."},
+{t:"Salir directo al campo: la información secundaria es una pérdida de tiempo.",p:0,f:"Sin exploración preliminar repetirás lo ya sabido y llegarás al campo con preguntas pobres."},
+{t:"Contratar un censo del municipio.",p:0,f:"Un censo es carísimo e innecesario: la fase preliminar usa información existente, no levantamientos masivos."}]},
+{s:"Paso 4 · Formulación de la hipótesis. En un estudio cualitativo la hipótesis funciona como supuesto de trabajo.",
+q:"¿Cuál es un supuesto adecuado para este estudio?",
+o:[{t:"“Los jóvenes asocian los dulces regionales con ocasiones familiares y de nostalgia, no con su consumo cotidiano.”",p:10,f:"Correcto. Es un supuesto explorable con técnicas cualitativas: orienta la guía de entrevista sin encasillar el resultado."},
+{t:"“El 63% de los jóvenes prefiere dulces importados con un nivel de confianza del 95%.”",p:0,f:"Esa es una hipótesis estadística de un estudio cuantitativo; aquí no hay muestreo probabilístico que la pruebe."},
+{t:"En lo cualitativo está prohibido formular cualquier supuesto.",p:0,f:"No está prohibido: se formulan supuestos de trabajo flexibles que se ajustan conforme avanza el estudio."}]},
+{s:"Paso 5 · Diseño de la investigación. Hay que definir el tipo de estudio.",
+q:"¿Qué diseño corresponde?",
+o:[{t:"Diseño exploratorio-cualitativo: entrevistas a profundidad y sesiones de grupo con jóvenes del segmento.",p:10,f:"Correcto. El diseño se alinea al objetivo: explorar y comprender pide técnicas cualitativas en un diseño exploratorio."},
+{t:"Diseño experimental con grupo de control y placebo.",p:0,f:"Los experimentos prueban causa-efecto en condiciones controladas; no es lo que este objetivo pide."},
+{t:"Encuesta descriptiva a 400 hogares.",p:0,f:"Ese es un diseño cuantitativo descriptivo; contradice el objetivo de comprensión profunda."}]},
+{s:"Paso 6 · Fuentes de información. El equipo clasifica lo que usará.",
+q:"¿Cuál clasificación es correcta?",
+o:[{t:"Primarias: las entrevistas y sesiones que realizaremos. Secundarias: censos de INEGI, estudios publicados y contenido de redes.",p:10,f:"Correcto. Primaria es la información que generas para tu estudio; secundaria, la que ya existía publicada."},
+{t:"Primarias: lo que salga en Google. Secundarias: nuestras entrevistas.",p:0,f:"Está invertido: lo que generas tú es primario; lo ya publicado es secundario."},
+{t:"Todas las fuentes son iguales, no vale la pena distinguirlas.",p:0,f:"Distinguirlas importa: cambia cómo citas, cómo evalúas confiabilidad y qué te falta por generar."}]},
+{s:"Paso 7 · Características del sujeto de estudio. Hay que definir a quién estudiar.",
+q:"¿Cuál es la mejor definición del sujeto de estudio?",
+o:[{t:"Jóvenes de 18 a 25 años, residentes de Hermosillo, que conozcan los dulces regionales, incluyendo consumidores y no consumidores.",p:10,f:"Correcto. Define edad, lugar y criterio de inclusión; incluir no consumidores es clave: son justo quienes explican el problema."},
+{t:"“Todo público”, para no dejar fuera a nadie.",p:0,f:"Sin delimitación no hay estudio: el sujeto se define con las características que exige el problema."},
+{t:"Los empleados de la dulcería, porque son fáciles de reunir.",p:0,f:"La facilidad no es criterio: los empleados no son el segmento cuyo comportamiento quieres comprender."}]},
+{s:"Paso 8 · Diseño del instrumento. Toca construir la herramienta de recolección.",
+q:"¿Qué instrumento diseñas?",
+o:[{t:"Una guía de tópicos con preguntas abiertas, flexible, organizada de lo general a lo específico.",p:10,f:"Correcto. El instrumento cualitativo es una guía flexible de temas y preguntas abiertas, no un cuestionario rígido."},
+{t:"Un cuestionario cerrado con escala del 1 al 5.",p:0,f:"Las escalas cerradas son instrumentos cuantitativos; aquí cortarían la profundidad que buscas."},
+{t:"Nada: la flexibilidad cualitativa significa improvisar en el momento.",p:0,f:"Flexibilidad no es improvisación: sin guía olvidarás temas clave y cada entrevista será incomparable con las demás."}]},
+{s:"Paso 9 · Trabajo de campo. Todo listo para levantar la información.",
+q:"¿Cuál es la mejor práctica antes y durante el levantamiento?",
+o:[{t:"Pilotear la guía con una o dos personas, pedir consentimiento informado y grabar solo con autorización.",p:10,f:"Correcto. El piloto detecta preguntas confusas y el consentimiento protege a los participantes y al estudio."},
+{t:"Aplicar directo la primera versión de la guía: el piloto retrasa.",p:0,f:"Sin piloto descubrirás los errores de la guía cuando ya quemaste entrevistados reales."},
+{t:"Grabar sin avisar para que la gente actúe natural.",p:0,f:"Grabar sin consentimiento viola la ética de la investigación; la naturalidad se logra con rapport, no con engaño."}]},
+{s:"Paso 10 · Análisis e interpretación de resultados. Terminaste 12 entrevistas y 2 sesiones de grupo.",
+q:"¿Cómo se analiza correctamente el material cualitativo?",
+o:[{t:"Transcribir, codificar el contenido, agrupar códigos en categorías y temas, y respaldar cada hallazgo con citas textuales.",p:10,f:"Correcto. El análisis cualitativo es sistemático: transcripción, codificación, categorías y verbatims que sustentan cada conclusión."},
+{t:"Promediar las respuestas y sacar porcentajes de cada opinión.",p:0,f:"Promediar 12 entrevistas no produce estadística válida ni respeta la naturaleza del dato cualitativo."},
+{t:"Quedarse con la opinión que más se repitió y descartar el resto.",p:0,f:"La frecuencia no es el único criterio: una idea dicha por una persona puede ser el insight más valioso del estudio."}]},
+{s:"Paso 11 · Limitaciones. El reporte está casi listo.",
+q:"¿Qué haces con las limitaciones del estudio?",
+o:[{t:"Declararlas con honestidad: resultados no generalizables estadísticamente, posibles sesgos y alcance geográfico del estudio.",p:10,f:"Correcto. Reconocer limitaciones da credibilidad profesional al informe y orienta el uso correcto de los hallazgos."},
+{t:"Omitirlas para que el trabajo se vea más sólido.",p:0,f:"Ocultarlas es una falta de ética profesional; toda investigación tiene limitaciones y declararlas fortalece el reporte."},
+{t:"Inventar un nivel de confianza del 95% para darle formalidad.",p:0,f:"Inventar cifras estadísticas en un estudio cualitativo es fabricar datos: la falta más grave en investigación."}]}
+]},
+/* ---------- MISIONES POR PRÁCTICA (equipo) ---------- */
+{
+id:"P2", seccion:"practica", etiqueta:"Práctica 2 · Técnica de observación", modo:"equipo",
+titulo:"Misión en Magdalena de Kino",
+desc:"Diseñen y ejecuten una observación etnográfica —física y digital— de la vocación productiva del municipio.",
+contexto:"Su equipo consultor fue asignado a Magdalena de Kino. La misión: observar la plaza Monumental en fin de semana y hacer etnografía digital de los grupos de Facebook del municipio, para detectar oportunidades alrededor de sus productos y tradiciones.",
+pasos:[
+{s:"Antes de salir a campo, el equipo debe acordar qué se va a observar.",
+q:"¿Cuál es el mejor objetivo de observación?",
+o:[{t:"“Observar los comportamientos de compra y consumo de productos regionales en la plaza Monumental durante el fin de semana.”",p:10,f:"Correcto. Un objetivo de observación delimita conductas, lugar y momento. Con eso se construye la guía."},
+{t:"“Observar todo lo que pase en Magdalena.”",p:0,f:"'Todo' no es observable: sin delimitación, las notas de campo serán un caos inutilizable."},
+{t:"“Contar los coches que entran al municipio.”",p:0,f:"Ese dato de aforo no responde a la misión: buscan comportamiento de compra y consumo, no tráfico."}]},
+{s:"Discuten qué tipo de observación realizar en la plaza.",
+q:"¿Qué modalidad conviene?",
+o:[{t:"No participante y estructurada: observar sin intervenir, con una guía de categorías definidas.",p:10,f:"Correcto. No intervienen en la escena y llevan guía: así el registro es comparable entre observadores del equipo."},
+{t:"Participante encubierta: hacerse pasar por vendedores sin avisarle a nadie.",p:0,f:"Encubrirse sin necesidad ni autorización cruza la línea ética y arriesga la misión."},
+{t:"Mejor entrevistar: la observación es poco científica.",p:0,f:"La observación es una técnica cualitativa legítima; además la misión pide conducta real, no discurso."}]},
+{s:"Toca construir la guía de observación física.",
+q:"¿Qué categorías debe incluir la guía?",
+o:[{t:"Símbolos y estética, rituales y comportamientos, lenguaje y narrativas, actores y redes.",p:10,f:"Correcto. Son las categorías de una guía etnográfica: qué se ve, qué se hace, qué se dice y quiénes influyen."},
+{t:"Una lista de precios de los productos de la plaza.",p:0,f:"Los precios son un dato puntual, no una guía de observación de comportamiento y cultura."},
+{t:"Preguntas de opinión para aplicar a los visitantes.",p:0,f:"Si preguntas, ya no es observación: es entrevista. No mezclen los instrumentos."}]},
+{s:"Para la etnografía digital, el equipo entra a los grupos de Facebook del municipio.",
+q:"¿Qué deben observar ahí?",
+o:[{t:"Narrativas e historias que se cuentan, iconografía que se repite, eventos y rutinas, y quiénes son las voces influyentes.",p:10,f:"Correcto. La etnografía digital observa símbolos, rituales, lenguaje y actores de la comunidad en línea."},
+{t:"Solo contar los likes de cada publicación.",p:5,f:"Los likes son una señal, pero quedarse ahí es superficial: lo valioso está en narrativas, símbolos y actores."},
+{t:"Publicar en el grupo una encuesta pidiendo que respondan.",p:0,f:"Eso ya no es observación y además intervienen la comunidad sin autorización del estudio."}]},
+{s:"Definen cómo registrar lo observado en la plaza.",
+q:"¿Cuál es el registro correcto?",
+o:[{t:"Notas de campo con fecha, hora y contexto, más fotos de espacios y productos con autorización, sin captar rostros identificables.",p:10,f:"Correcto. El registro sistemático y respetuoso es lo que convierte una visita en datos analizables."},
+{t:"Confiar en la memoria y escribir todo al llegar a Hermosillo.",p:0,f:"La memoria pierde y distorsiona detalles en horas: las notas se toman en el momento o inmediatamente después."},
+{t:"Grabar video de las personas sin avisar, para que salga natural.",p:0,f:"Grabar personas identificables sin consentimiento viola la ética del estudio."}]},
+{s:"En plena observación, un locatario se acerca y pregunta con desconfianza qué están haciendo.",
+q:"¿Cómo responde el equipo?",
+o:[{t:"Se identifican como estudiantes de la UTH, explican el estudio y le piden su autorización para continuar.",p:10,f:"Correcto. Transparencia y respeto: además, un locatario que entiende el proyecto suele volverse un gran informante."},
+{t:"Dicen que son turistas tomando fotos.",p:0,f:"Mentir compromete la ética del estudio y, si se descubre, cierra las puertas del municipio al proyecto."},
+{t:"Se retiran de inmediato sin dar explicaciones.",p:5,f:"Retirarse evita el conflicto, pero pierde la oportunidad de legitimar el trabajo y ganar un aliado. Mejor: identificarse."}]},
+{s:"De regreso, las notas dicen: “las familias compran dulces y artesanías como regalo para llevar a parientes de otras ciudades, casi nunca para consumir ahí mismo”.",
+q:"¿Qué conclusión útil extrae el equipo?",
+o:[{t:"Hay una oportunidad alrededor del formato regalo: empaque, presentación y narrativa de 'orgullo de Magdalena' para llevar.",p:10,f:"Correcto. Eso es un insight accionable: conecta el comportamiento observado con una decisión de producto para el proyecto."},
+{t:"“La gente compra cosas en la plaza.”",p:0,f:"Eso ya se sabía sin investigar: una conclusión debe agregar comprensión, no describir lo obvio."},
+{t:"Fijar de una vez el precio final del producto del proyecto.",p:0,f:"El precio no sale de una observación: excede el alcance de esta técnica y de esta etapa."}]}
+]},
+{
+id:"P3", seccion:"practica", etiqueta:"Práctica 3 · Entrevista a profundidad", modo:"equipo",
+titulo:"La maestra artesana de Álamos",
+desc:"Consigan una entrevista a profundidad con doña Refugio, artesana con 40 años de oficio, sin quemar la oportunidad.",
+contexto:"Doña Refugio, maestra artesana de Álamos, aceptó darles una hora de su tiempo. Es la informante clave de su investigación: conoce el oficio, el pueblo y a los compradores. Una entrevista mal llevada no se repite.",
+pasos:[
+{s:"Faltan tres días para la entrevista.",
+q:"¿Cómo se prepara el equipo?",
+o:[{t:"Elaboran la guía de tópicos, investigan la trayectoria de doña Refugio, prueban la grabadora y definen quién entrevista y quién registra.",p:10,f:"Correcto. Una entrevista a profundidad se gana en la preparación: guía, contexto del informante, equipo probado y roles claros."},
+{t:"No preparan nada: la espontaneidad es lo cualitativo.",p:0,f:"Confundir flexibilidad con improvisación cuesta caro: sin guía olvidarán los temas centrales del estudio."},
+{t:"Redactan 30 preguntas cerradas para no perder tiempo.",p:0,f:"Treinta preguntas cerradas convierten la entrevista en interrogatorio: matan la profundidad que buscan."}]},
+{s:"Llegan a su taller. Doña Refugio los recibe algo seria.",
+q:"¿Cómo abren la entrevista?",
+o:[{t:"Conversación ligera para generar rapport, explican el propósito del estudio y piden su consentimiento para grabar.",p:10,f:"Correcto. Rapport + propósito + consentimiento: la apertura construye la confianza de la que depende toda la entrevista."},
+{t:"Van directo a la pregunta más delicada: “¿cuánto gana usted al mes?”.",p:0,f:"Abrir con lo íntimo sin confianza previa cierra al informante, a veces de forma definitiva."},
+{t:"Le ofrecen un pago extra si da respuestas 'útiles' para el proyecto.",p:0,f:"Pagar por respuestas 'correctas' contamina el dato y es una falta ética grave."}]},
+{s:"Toca la primera pregunta importante sobre su oficio.",
+q:"¿Cuál es la mejor pregunta?",
+o:[{t:"“Platíqueme, ¿cómo aprendió usted este oficio?”",p:10,f:"Correcto. Abierta, narrativa y neutral: invita a contar una historia, que es donde viven los insights."},
+{t:"“¿Verdad que sus artesanías son las mejores de la región?”",p:0,f:"Pregunta dirigida: sugiere la respuesta y solo produce cortesía, no información."},
+{t:"“¿Vende mucho? ¿Sí o no?”",p:0,f:"Cerrada: se responde con un monosílabo y no abre ninguna puerta."}]},
+{s:"Le preguntan por los compradores jóvenes y responde solo: “casi no vienen”.",
+q:"¿Qué hace el entrevistador?",
+o:[{t:"Sondea: “¿me puede contar más sobre eso? ¿Cómo era antes, qué cree que cambió?”",p:10,f:"Correcto. El sondeo (probing) convierte respuestas cortas en relatos: es la habilidad central del entrevistador a profundidad."},
+{t:"Pasa a la siguiente pregunta de la guía.",p:5,f:"Avanzar es cómodo, pero acaban de pasar de largo un tema central del estudio. Primero se profundiza, luego se avanza."},
+{t:"Responde por ella: “seguro es por el internet, ¿verdad?”.",p:0,f:"Poner palabras en boca del informante sesga el dato: la hipótesis del equipo no se sugiere, se explora."}]},
+{s:"Tras una pregunta sobre el futuro del oficio, doña Refugio se queda callada varios segundos.",
+q:"¿Cómo se maneja el silencio?",
+o:[{t:"Lo toleran con calma: el silencio invita a elaborar, y suele venir seguido de lo más valioso.",p:10,f:"Correcto. El silencio es herramienta del entrevistador: quien lo respeta, cosecha reflexión; quien lo llena, la interrumpe."},
+{t:"Lo llenan de inmediato con otra pregunta para evitar la incomodidad.",p:5,f:"Comprensible, pero interrumpe la reflexión del informante justo cuando estaba por decir algo importante."},
+{t:"Dan por terminada la entrevista: ya se incomodó.",p:0,f:"Un silencio no es incomodidad terminal: abandonarla desperdicia a la informante clave del estudio."}]},
+{s:"Doña Refugio lleva diez minutos hablando de un pleito familiar sin relación con el estudio.",
+q:"¿Qué procede?",
+o:[{t:"Redirigir con amabilidad: “qué interesante lo que cuenta; volviendo a sus compradores, ¿quiénes valoran más su trabajo?”",p:10,f:"Correcto. Redirigir sin brusquedad conserva el rapport y recupera la guía de tópicos."},
+{t:"Interrumpir en seco: “eso no nos sirve, volvamos al tema”.",p:0,f:"La brusquedad rompe el rapport construido; el costo es mayor que los minutos perdidos."},
+{t:"Dejar que consuma la hora completa: sería grosero intervenir.",p:0,f:"La cortesía extrema también falla: se van sin los temas del estudio y la oportunidad no se repite."}]},
+{s:"Durante toda la entrevista, además de la grabadora…",
+q:"¿Qué debe registrar el segundo integrante?",
+o:[{t:"Lenguaje no verbal: gestos, pausas, cambios de tono, objetos que muestra, y el contexto del taller.",p:10,f:"Correcto. Lo no verbal comunica tanto como las palabras: emociones, orgullo, incomodidad. La grabadora no lo captura."},
+{t:"Nada: con la grabadora es suficiente.",p:0,f:"El audio pierde gestos, miradas y contexto: la mitad de la información de una entrevista presencial."},
+{t:"Su opinión personal sobre si doña Refugio 'tiene razón' o no.",p:0,f:"El registro documenta, no juzga: las opiniones del equipo van después, separadas, en el análisis."}]},
+{s:"La entrevista terminó. Tienen 58 minutos de audio.",
+q:"¿Cuál es el siguiente paso correcto?",
+o:[{t:"Transcribir el audio (por ejemplo con Whisper en Colab), codificar el texto y extraer citas textuales para el análisis.",p:10,f:"Correcto. Transcripción fiel, codificación y verbatims: así la entrevista se convierte en evidencia analizable para el reporte."},
+{t:"Resumir de memoria lo que 'más o menos' dijo.",p:0,f:"El resumen de memoria distorsiona: las conclusiones deben poder rastrearse hasta las palabras textuales."},
+{t:"Editar las citas para que digan lo que el equipo esperaba encontrar.",p:0,f:"Alterar citas es fabricar datos: invalida el estudio y es la falta ética más grave del oficio."}]}
+]},
+{
+id:"P4", seccion:"practica", etiqueta:"Práctica 4 · Sesión de grupo", modo:"equipo",
+titulo:"El focus del queso regional",
+desc:"Diseñen y moderen una sesión de grupo para evaluar el concepto de un queso regional de Ures con empaque premium.",
+contexto:"Su equipo evaluará el concepto de un queso regional de Ures con empaque premium, dirigido a consumidores urbanos. Deben diseñar la sesión de grupo, redactar el guion y moderar sin perder el control… ni la neutralidad.",
+pasos:[
+{s:"Primera decisión: la composición del grupo.",
+q:"¿Cómo se integra correctamente una sesión de grupo?",
+o:[{t:"De 6 a 10 participantes con perfil homogéneo respecto al tema: consumidores urbanos de quesos y lácteos regionales.",p:10,f:"Correcto. Entre 6 y 10 personas de perfil similar: suficientes para la interacción, pocas para que todos hablen."},
+{t:"25 personas, para que la muestra sea 'más representativa'.",p:0,f:"Con 25 nadie profundiza y el grupo se vuelve asamblea; además la sesión de grupo no busca representatividad estadística."},
+{t:"Dos amigos del equipo que aceptaron ayudar.",p:0,f:"Amigos del equipo responden por compromiso y conocen el proyecto: el dato nace contaminado."}]},
+{s:"Hay que reclutar a los participantes.",
+q:"¿Cuál es el filtro de reclutamiento correcto?",
+o:[{t:"Un cuestionario filtro con los criterios del sujeto de estudio, excluyendo a conocidos del equipo y a personas que trabajen en mercadotecnia o alimentos.",p:10,f:"Correcto. El filtro garantiza el perfil y excluye a 'expertos' y conocidos, que distorsionan la dinámica."},
+{t:"Invitar a cualquiera que pase por el pasillo de la universidad.",p:0,f:"Sin filtro no hay perfil: las reacciones de quien no consume el producto no responden al objetivo."},
+{t:"Reclutar solo a personas que ya aman el queso regional.",p:0,f:"Sesgar el grupo hacia fans garantiza elogios, no información: se necesitan consumidores del perfil, no porristas."}]},
+{s:"El equipo redacta el guion de la sesión.",
+q:"¿Cómo se estructura un buen guion?",
+o:[{t:"En embudo: apertura y calentamiento, temas generales de consumo, y al final el concepto y el empaque a evaluar.",p:10,f:"Correcto. El embudo va de lo general a lo específico: primero contexto y confianza, al final el estímulo central."},
+{t:"Empezar mostrando el empaque y preguntando “¿les gusta?”.",p:0,f:"Mostrar el estímulo de entrada ancla todas las respuestas y pierde el contexto de consumo que da sentido a las reacciones."},
+{t:"Sin guion: el moderador improvisa según el ánimo del grupo.",p:0,f:"Sin guion la sesión se dispersa y no cubre los objetivos; la flexibilidad opera DENTRO de una estructura."}]},
+{s:"Definen quién modera y cómo.",
+q:"¿Cuál es el rol correcto del moderador?",
+o:[{t:"Facilitar: mantenerse neutral, hacer hablar a todos, sondear respuestas y administrar el tiempo del guion.",p:10,f:"Correcto. El moderador es facilitador neutral: su opinión no existe durante la sesión."},
+{t:"Defender el producto cuando alguien lo critique.",p:0,f:"Defender el concepto convierte la sesión en venta: las críticas son justamente el dato más valioso."},
+{t:"Leer las preguntas del guion sin levantar la vista.",p:0,f:"Un moderador que no observa ni sondea pierde las reacciones y deja morir la interacción."}]},
+{s:"A los 20 minutos, un participante acapara la palabra y los demás se apagan.",
+q:"¿Cómo lo maneja el moderador?",
+o:[{t:"Agradece su aporte y redirige: “muy interesante; ¿alguien lo vive de forma diferente?” — dando turno a los callados por nombre.",p:10,f:"Correcto. Se administra la participación sin humillar: se agradece, se redirige y se invita a los silenciosos."},
+{t:"Lo calla en seco delante de todos.",p:0,f:"Humillar a un participante congela al resto del grupo: nadie quiere ser el siguiente."},
+{t:"Lo deja dominar: al fin que habla con mucha seguridad.",p:0,f:"Un dominante convierte la sesión en su monólogo: obtienes la opinión de uno, pagando por la de ocho."}]},
+{s:"El cliente (la quesería) quiere presenciar la sesión.",
+q:"¿Cómo se organiza la observación?",
+o:[{t:"El cliente y el equipo observan desde la cámara de Gesell o por video, y a los participantes se les informa que la sesión es observada y grabada.",p:10,f:"Correcto. Observación no intrusiva + participantes informados: así se cuida la dinámica y la ética al mismo tiempo."},
+{t:"El dueño de la quesería se sienta dentro del grupo, sin decir quién es.",p:0,f:"Un observador encubierto dentro del grupo inhibe y engaña: ni ética ni metodológicamente aceptable."},
+{t:"Grabar en secreto: si saben que se graba, actuarán raro.",p:0,f:"El consentimiento es innegociable; los participantes olvidan la cámara a los pocos minutos."}]},
+{s:"Llega el momento central de la sesión.",
+q:"¿Cómo se presenta el concepto del queso premium?",
+o:[{t:"Con estímulos concretos: prototipo del empaque, degustación del producto y la descripción del concepto en lenguaje neutro.",p:10,f:"Correcto. Los estímulos tangibles producen reacciones ricas y comparables: probar y tocar vale más que imaginar."},
+{t:"Pedirles que imaginen el producto sin mostrar nada.",p:5,f:"Se puede, pero las reacciones a algo imaginado son vagas; si existe prototipo, se muestra."},
+{t:"Mostrar primero el precio para 'ir al grano'.",p:0,f:"Anclar en precio contamina la evaluación del concepto: el precio se explora después de las reacciones al producto."}]},
+{s:"Terminó la sesión. El equipo analiza la grabación.",
+q:"¿Cómo se reportan los resultados de una sesión de grupo?",
+o:[{t:"Transcripción y análisis por temas con citas textuales, distinguiendo los hechos observados de la interpretación del equipo.",p:10,f:"Correcto. El reporte cualitativo separa evidencia (verbatims, reacciones) de interpretación, tema por tema."},
+{t:"Contar votos: “6 de 8 aprueban el producto, 75% de aceptación”.",p:0,f:"La sesión de grupo no es encuesta: convertir 8 opiniones en porcentajes inventa una precisión que no existe."},
+{t:"Reportar solo los comentarios que apoyan el lanzamiento.",p:0,f:"Filtrar lo negativo es engañar al cliente: las objeciones del grupo son oro para mejorar el concepto."}]}
+]},
+{
+id:"P5", seccion:"practica", etiqueta:"Práctica 5 · Panel de consumidores", modo:"equipo",
+titulo:"El panel de las sobaqueras",
+desc:"Una tortillería artesanal de Ures probará una nueva harina durante 8 semanas. Diseñen el panel que seguirá la aceptación.",
+contexto:"“Tortillas doña Chuyita”, de Ures, cambiará de harina para sus tortillas sobaqueras y teme perder su sabor tradicional. Quiere seguir la aceptación de la nueva receta en los mismos hogares durante 8 semanas. Su equipo diseñará el panel.",
+pasos:[
+{s:"Primero, lo conceptual: el dueño pregunta qué es exactamente un panel.",
+q:"¿Qué distingue al panel de consumidores de otras técnicas?",
+o:[{t:"Es una muestra fija de consumidores a la que se le recopila información de forma repetida a lo largo del tiempo.",p:10,f:"Correcto. La esencia del panel es la medición repetida en las MISMAS personas: eso permite ver cambios y tendencias."},
+{t:"Es una sesión de grupo pero con más gente.",p:0,f:"No: la sesión de grupo es un evento único de interacción; el panel es seguimiento longitudinal de una muestra fija."},
+{t:"Es observar consumidores sin que lo sepan durante meses.",p:0,f:"El panelista participa voluntariamente y lo sabe: sin consentimiento y compromiso no hay panel."}]},
+{s:"Toca reclutar a los hogares panelistas.",
+q:"¿Cuál es el reclutamiento correcto?",
+o:[{t:"Hogares consumidores de tortilla de harina, del perfil del cliente, que acepten participar las 8 semanas, con panelistas suplentes previstos.",p:10,f:"Correcto. Perfil correcto + compromiso de permanencia + suplentes: las tres claves de un panel que sobrevive 8 semanas."},
+{t:"Los primeros 10 que respondan en redes, sean quienes sean.",p:0,f:"Sin filtro de perfil, medirás la opinión de gente que ni consume el producto."},
+{t:"Puros familiares del dueño, que sí van a cumplir.",p:0,f:"Los familiares del dueño difícilmente reportarán con franqueza que la nueva receta no les gusta."}]},
+{s:"Un integrante pregunta si se les debe dar algo a los panelistas.",
+q:"¿Cómo se maneja el incentivo?",
+o:[{t:"Compensación razonable y constante durante todo el periodo: producto, despensa o un apoyo simbólico por participar.",p:10,f:"Correcto. El incentivo constante sostiene la participación 8 semanas; se paga la participación, nunca el sentido de las respuestas."},
+{t:"Nada: deben participar por amor a las tortillas.",p:5,f:"Sin incentivo, la deserción a mitad del periodo es casi segura, y cada baja daña la comparabilidad del panel."},
+{t:"Pagar extra a quienes den opiniones positivas de la nueva harina.",p:0,f:"Pagar por opiniones positivas destruye el estudio: compra elogios en lugar de medir aceptación real."}]},
+{s:"Definen la mecánica de recolección.",
+q:"¿Con qué frecuencia y formato reportan los panelistas?",
+o:[{t:"Una bitácora estructurada breve por semana: consumo, sabor, textura, comparación con la tortilla anterior y comentarios libres.",p:10,f:"Correcto. Registro periódico, corto y estructurado: captura la evolución sin agotar al panelista."},
+{t:"Una sola entrevista larga al final de las 8 semanas.",p:0,f:"Medir solo al final pierde justamente lo que el panel busca: la evolución semana a semana."},
+{t:"Reportes diarios de 3 horas con 80 preguntas.",p:0,f:"Esa carga quema al panel en la primera semana: el desgaste del panelista es el enemigo número uno."}]},
+{s:"En la semana 4, tres de los diez hogares dejaron de reportar.",
+q:"¿Cómo se maneja la deserción?",
+o:[{t:"Activar a los suplentes reclutados con el mismo perfil y documentar el cambio en el reporte.",p:10,f:"Correcto. La deserción se prevé desde el diseño: suplentes del mismo perfil y transparencia sobre el reemplazo."},
+{t:"Seguir con siete y no decirle nada al cliente.",p:0,f:"Ocultar bajas al cliente compromete la honestidad del estudio; además siete hogares sesgados hacia 'los cumplidos' distorsionan."},
+{t:"Inventar los reportes faltantes con base en las semanas anteriores.",p:0,f:"Rellenar datos es fabricación: la falta más grave que puede cometer un investigador."}]},
+{s:"El dueño nota que una panelista ya habla como ingeniera de alimentos: “la miga presenta elasticidad irregular…”.",
+q:"¿Qué fenómeno es y qué se hace?",
+o:[{t:"Es el 'efecto panel': los participantes se profesionalizan y dejan de comportarse como consumidores comunes. Se reconoce como limitación y se rota el panel.",p:10,f:"Correcto. El efecto panel es un sesgo conocido de la técnica: se declara como limitación y se maneja con rotación de panelistas."},
+{t:"Es una ventaja: ahora opinan con más nivel técnico.",p:0,f:"Al contrario: dejaron de representar al consumidor común, que es a quien el cliente quiere entender."},
+{t:"No pasa nada: se ignora y ya.",p:0,f:"Ignorar un sesgo conocido debilita las conclusiones; se documenta y se mitiga."}]},
+{s:"Terminaron las 8 semanas. Llega el análisis.",
+q:"¿Cómo se analiza la información de un panel?",
+o:[{t:"Longitudinalmente: comparar cómo cambiaron las valoraciones de los MISMOS hogares entre la semana 1 y la 8, con sus comentarios como evidencia.",p:10,f:"Correcto. El valor del panel está en la trayectoria: la adaptación (o el rechazo) a la nueva receta se ve semana a semana."},
+{t:"Promediar todos los reportes de todas las semanas en un solo número.",p:0,f:"Un promedio global entierra la evolución: borra justo la información por la que se montó el panel."},
+{t:"Usar solo los reportes de la última semana, que son 'los más maduros'.",p:0,f:"Quedarse con la última semana desperdicia el seguimiento: eso se lograba con una encuesta única, sin 8 semanas de panel."}]}
+]},
+{
+id:"P6", seccion:"practica", etiqueta:"Práctica 6 · Comprador misterioso", modo:"equipo",
+titulo:"Operación Río Sonora",
+desc:"Una red de expendios de productos regionales en la Ruta del Río Sonora pide evaluar la experiencia de compra real.",
+contexto:"La red “Sabores del Río” tiene expendios en Baviácora, Aconchi y Banámichi. La dueña sospecha que la experiencia de compra varía mucho entre tiendas. Su equipo ejecutará un estudio de comprador misterioso (mystery shopper).",
+pasos:[
+{s:"Antes de diseñar nada, hay que acordar el propósito del estudio.",
+q:"¿Cuál es el objetivo correcto de un mystery shopper?",
+o:[{t:"Evaluar la experiencia de compra y el cumplimiento de los estándares de servicio, tal como los vive un cliente común.",p:10,f:"Correcto. El comprador misterioso mide la experiencia real contra estándares definidos: es diagnóstico de servicio."},
+{t:"Vigilar la vida personal de los empleados.",p:0,f:"El estudio evalúa el servicio, no a la persona: cruzar esa línea es una violación ética y de privacidad."},
+{t:"Medir las ventas mensuales de cada expendio.",p:0,f:"Las ventas salen del subsistema interno de la empresa; el misterioso evalúa experiencia, no facturación."}]},
+{s:"El equipo diseña el instrumento de la visita.",
+q:"¿Qué debe contener el guion del comprador misterioso?",
+o:[{t:"Un escenario de compra creíble, qué preguntar al personal, qué observar en cada momento y los criterios a evaluar.",p:10,f:"Correcto. Guion = escenario + interacciones + criterios observables: así todas las visitas son comparables entre sí."},
+{t:"Nada escrito: que el comprador actúe como se le ocurra.",p:0,f:"Sin guion, cada visita evalúa cosas distintas y los resultados no se pueden comparar entre expendios."},
+{t:"Una lista de trampas para hacer caer al empleado.",p:0,f:"El misterioso evalúa el servicio normal, no fabrica situaciones para inducir errores."}]},
+{s:"Hay que decidir quién hace las visitas.",
+q:"¿Cuál es el perfil correcto del comprador misterioso?",
+o:[{t:"Alguien parecido al cliente típico del expendio y desconocido para el personal de las tiendas.",p:10,f:"Correcto. Si no parece cliente común o si lo reconocen, la actuación se cae y el dato pierde validez."},
+{t:"El primo del encargado, que va seguido y conoce a todos.",p:0,f:"Si el personal lo reconoce, recibirá trato preferente: justo lo contrario a la experiencia del cliente común."},
+{t:"Alguien con pinta de inspector, con tabla y uniforme.",p:0,f:"Si parece auditor, el personal actúa para la evaluación: se pierde la naturalidad que da valor a la técnica."}]},
+{s:"Durante la visita a Aconchi, el comprador debe registrar la información.",
+q:"¿Cuándo y cómo se registra la visita?",
+o:[{t:"Actuar con naturalidad y memorizar; al salir, llenar de inmediato el formato con todos los detalles.",p:10,f:"Correcto. Registrar al salir, con la memoria fresca, mantiene el anonimato y conserva el detalle."},
+{t:"Tomar notas en el celular frente al empleado durante la compra.",p:0,f:"Tomar notas visibles delata la evaluación y cambia el comportamiento del personal al instante."},
+{t:"Esperar al día siguiente para llenar el formato con calma.",p:0,f:"Para el día siguiente, la memoria ya perdió tiempos, frases y detalles: el registro es inmediato o no es confiable."}]},
+{s:"Revisan juntos el formato de evaluación.",
+q:"¿Qué debe evaluar el comprador misterioso?",
+o:[{t:"Hechos observables: saludo, tiempo de atención, conocimiento del producto, limpieza, despedida y cumplimiento del protocolo.",p:10,f:"Correcto. Se evalúan conductas y hechos verificables contra criterios; no impresiones vagas ni simpatías."},
+{t:"Si el empleado 'le cayó bien' al comprador.",p:0,f:"La simpatía personal no es un criterio: sin hechos observables, el reporte es opinión, no evaluación."},
+{t:"Los rumores que se escuchen sobre el personal.",p:0,f:"Los chismes no son datos del estudio: solo cuenta lo observado en la experiencia de compra."}]},
+{s:"Un integrante propone provocar al empleado con groserías “para ver cómo reacciona bajo presión”.",
+q:"¿Qué responde el equipo?",
+o:[{t:"No: la técnica evalúa el servicio en condiciones normales, sin entrampar a nadie, y sus resultados se usan para mejorar, no para castigar.",p:10,f:"Correcto. La ética del mystery shopper: condiciones normales, sin provocaciones, con fines de mejora del servicio."},
+{t:"Buena idea: así el estudio se vuelve más completo.",p:0,f:"Provocar al empleado fabrica una situación irreal y daña a una persona: es indefendible ética y metodológicamente."},
+{t:"Sí, pero solo si se graba para TikTok como evidencia.",p:0,f:"Exhibir a un trabajador en redes viola la confidencialidad y la dignidad: descalificaría todo el estudio."}]},
+{s:"Con las visitas a los tres expendios terminadas, toca el entregable.",
+q:"¿Cómo se estructura el reporte de mystery shopper?",
+o:[{t:"Por criterio y por expendio: hallazgos con evidencia concreta de cada visita, comparativo entre tiendas y recomendaciones de mejora.",p:10,f:"Correcto. Evidencia por criterio + comparativo + recomendaciones accionables: eso puede usar la dueña para decidir."},
+{t:"“En general todo bien.” Una cuartilla y listo.",p:0,f:"Un reporte sin hallazgos específicos ni evidencia no le sirve de nada al cliente."},
+{t:"Una lista de quejas personales sin criterios ni evidencia.",p:0,f:"Sin criterios ni evidencia, el reporte es una carta de opiniones: pierde toda utilidad diagnóstica."}]}
+]}
+];
+
+/* ================= MOTOR ================= */
+const $app = document.getElementById("app");
+let state = null;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+/* ---- Código de verificación ---- */
+const KEY = "KINO-URES-2026";
+function toB64u(bytes){ let s=""; bytes.forEach(b=>s+=String.fromCharCode(b)); return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function fromB64u(str){ str=str.replace(/-/g,"+").replace(/_/g,"/"); while(str.length%4)str+="="; const bin=atob(str); const a=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i); return a; }
+function makeCode(fields){ // fields: array of strings
+  const payload = fields.map(f=>String(f).replace(/\|/g,"/")).join("|");
+  const data = new TextEncoder().encode(payload);
+  let sum=0; data.forEach(b=>sum=(sum+b)%251);
+  const out = new Uint8Array(data.length+1);
+  for(let i=0;i<data.length;i++) out[i]=data[i]^KEY.charCodeAt(i%KEY.length);
+  out[data.length]=sum;
+  const b64=toB64u(out);
+  return "SIM2-"+(b64.match(/.{1,4}/g)||[]).join("-");
+}
+function readCode(code){
+  try{
+    const clean = code.trim().toUpperCase().startsWith("SIM2-") ? code.trim().slice(5) : code.trim();
+    const b64 = clean.replace(/[-\s]/g,"");
+    const arr = fromB64u(b64);
+    if(arr.length<2) return null;
+    const body = arr.slice(0,arr.length-1), chk = arr[arr.length-1];
+    const data = new Uint8Array(body.length);
+    for(let i=0;i<body.length;i++) data[i]=body[i]^KEY.charCodeAt(i%KEY.length);
+    let sum=0; data.forEach(b=>sum=(sum+b)%251);
+    if(sum!==chk) return null;
+    const parts = new TextDecoder().decode(data).split("|");
+    if(parts.length!==7 || parts[0]!=="1") return null;
+    return {scn:parts[1], quien:parts[2], grupo:parts[3], pts:parts[4], max:parts[5], fecha:parts[6]};
+  }catch(e){ return null; }
+}
+
+/* ---- Vistas ---- */
+function nivel(pct){
+  if(pct>=90) return ["Consultor(a) Senior","Dominio sobresaliente del proceso. Nivel profesional."];
+  if(pct>=75) return ["Consultor(a) Junior","Buen dominio; revisa la retroalimentación de tus errores."];
+  if(pct>=60) return ["Analista en formación","Vas en camino: repasa el tema y vuelve a intentar la misión."];
+  return ["Practicante","La misión requiere repaso. Vuelve al material del tema y reintenta."];
+}
+function bestKey(id){ return "mc_best_"+id; }
+function esDocente(){ try{ return sessionStorage.getItem("mc_teacher")==="1"; }catch(e){ return false; } }
+function activo(id){ return CONFIG.activos===null || CONFIG.activos.includes(id); }
+
+function home(){
+  state=null;
+  const secTema = SCN.filter(s=>s.seccion==="tema");
+  const secPrac = SCN.filter(s=>s.seccion==="practica");
+  const doc = esDocente();
+  const card = s=>{
+    const best = lsGet(bestKey(s.id));
+    const on = activo(s.id);
+    if(!on && !doc){
+      return `<div class="card locked">
+        <div class="row1">
+          <span class="chip chip-lock">🔒 Bloqueada</span>
+          <span class="chip chip-best">${esc(s.etiqueta)}</span>
+        </div>
+        <h3>${esc(s.titulo)}</h3>
+        <p class="desc">Esta misión se activará cuando el grupo avance al tema correspondiente.</p>
+      </div>`;
+    }
+    return `<button class="card" data-go="${s.id}">
+      <div class="row1">
+        <span class="chip ${s.modo==="equipo"?"chip-eq":"chip-ind"}">${s.modo==="equipo"?"Equipo":"Individual"}</span>
+        <span class="chip chip-best">${esc(s.etiqueta)}</span>
+        ${!on?`<span class="chip chip-lock">Oculta para alumnos</span>`:""}
+        ${best?`<span class="chip chip-best">Mejor: ${best}%</span>`:""}
+      </div>
+      <h3>${esc(s.titulo)}</h3>
+      <p class="desc">${esc(s.desc)}</p>
+      <span class="meta">${s.pasos.length} decisiones · 10–20 min</span>
+    </button>`;
+  };
+  $app.innerHTML = `
+    <div class="topbar"><div class="brand"><span class="t">Misión Cualitativa</span><span class="s">Simulador · SIM II · De Sonora para el mundo</span></div></div>
+    <div class="hero">
+      <span class="kicker">Unidad I · Investigación de mercados cualitativa</span>
+      <h1>Conviértete en consultor de mercados</h1>
+      <p>Cada escenario te pone frente a decisiones reales de una investigación cualitativa en Sonora. Elige bien: cada decisión suma puntos y al final obtienes tu nivel y tu código de evidencia.</p>
+    </div>
+    <div class="sect"><h2>Entrena por tema</h2><p class="sub">Modo individual · práctica libre, intentos ilimitados</p></div>
+    <div class="cards">${secTema.map(card).join("")}</div>
+    <div class="sect"><h2>Misiones por práctica</h2><p class="sub">Modo equipo · un celular por equipo, decidan juntos</p></div>
+    <div class="cards">${secPrac.map(card).join("")}</div>
+    <div class="linkrow"><button class="linkbtn" id="goDoc">Acceso docente</button></div>`;
+  $app.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>intro(b.dataset.go)));
+  document.getElementById("goDoc").addEventListener("click",docente);
+  window.scrollTo(0,0);
+}
+
+function intro(id){
+  const s = SCN.find(x=>x.id===id);
+  const equipo = s.modo==="equipo";
+  $app.innerHTML = `
+    <button class="back" id="back">← Volver al inicio</button>
+    <div class="hero" style="margin-top:10px">
+      <span class="kicker">${esc(s.etiqueta)} · Modo ${equipo?"equipo":"individual"}</span>
+      <h1>${esc(s.titulo)}</h1>
+      <div class="ctx"><span class="ct">Tu misión</span>${esc(s.contexto)}</div>
+      <p class="note">${s.pasos.length} decisiones · Cada una vale hasta 10 puntos · Al final recibes tu nivel y un código de evidencia para entregar al profesor.</p>
+    </div>
+    <form id="frm">
+      ${equipo? `
+      <div class="field"><label for="f1">Nombre del equipo</label><input id="f1" maxlength="40" placeholder="Ej. Los Consultores del Río" autocomplete="off"></div>
+      <div class="field"><label for="f2">Grupo</label><select id="f2">${GRUPOS.map(g=>`<option>${g}</option>`).join("")}</select></div>
+      <div class="field"><label for="f3">Integrantes presentes (opcional)</label><input id="f3" maxlength="120" placeholder="Nombres de quienes participan" autocomplete="off"></div>
+      `:`
+      <div class="field"><label for="f1">Tu nombre completo</label><input id="f1" maxlength="60" placeholder="Nombre y apellidos" autocomplete="off"></div>
+      <div class="field"><label for="f2">Grupo</label><select id="f2">${GRUPOS.map(g=>`<option>${g}</option>`).join("")}</select></div>
+      `}
+      <div class="actions">
+        <button type="submit" class="btn ${equipo?"btn-clay":"btn-acc"} btn-block">Comenzar la misión</button>
+        <button type="button" class="btn btn-ghost btn-block" id="libre">Practicar sin registrar (sin código)</button>
+      </div>
+    </form>`;
+  document.getElementById("back").addEventListener("click",home);
+  const start = (quien,grupo)=>{
+    state = {s, i:0, score:0, ok:0, mid:0, bad:0, quien, grupo,
+      orden: s.pasos.map(p=>{ const idx=p.o.map((_,k)=>k); for(let j=idx.length-1;j>0;j--){const r=Math.floor(Math.random()*(j+1));[idx[j],idx[r]]=[idx[r],idx[j]];} return idx; })};
+    paso();
+  };
+  document.getElementById("frm").addEventListener("submit",e=>{
+    e.preventDefault();
+    const quien = document.getElementById("f1").value.trim();
+    if(!quien){ document.getElementById("f1").focus(); return; }
+    const extra = equipo && document.getElementById("f3").value.trim();
+    start(quien + (extra? " ("+extra+")":""), document.getElementById("f2").value);
+  });
+  document.getElementById("libre").addEventListener("click",()=>start(null,null));
+  window.scrollTo(0,0);
+}
+
+function paso(){
+  const {s,i,orden} = state;
+  const p = s.pasos[i];
+  const pct = Math.round(i/s.pasos.length*100);
+  $app.innerHTML = `
+    <div class="topbar"><div class="brand"><span class="t">${esc(s.titulo)}</span><span class="s">${esc(s.etiqueta)}</span></div>
+    <span class="qcount">${i+1} / ${s.pasos.length}</span></div>
+    <div class="progress"><div style="width:${pct}%"></div></div>
+    <div class="situ">
+      ${p.s.startsWith("Paso")?`<div class="paso">${esc(p.s.split(".")[0])}</div><p>${esc(p.s.split(".").slice(1).join(".").trim())}</p>`:`<p>${esc(p.s)}</p>`}
+      <p class="preg">${esc(p.q)}</p>
+    </div>
+    <div class="opts" id="opts">
+      ${orden[i].map(k=>`<button class="opt" data-k="${k}">${esc(p.o[k].t)}</button>`).join("")}
+    </div>
+    <div id="fb"></div>`;
+  document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>elegir(parseInt(b.dataset.k,10),b)));
+  window.scrollTo(0,0);
+}
+
+function elegir(k, btn){
+  const {s,i} = state;
+  const p = s.pasos[i];
+  const op = p.o[k];
+  state.score += op.p;
+  if(op.p>=10){state.ok++;} else if(op.p>0){state.mid++;} else {state.bad++;}
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.disabled = true;
+    const kk = parseInt(b.dataset.k,10);
+    if(kk===k) b.classList.add(op.p>=10?"sel-ok":op.p>0?"sel-mid":"sel-bad");
+    else if(p.o[kk].p>=10 && op.p<10) b.classList.add("reveal-ok");
+  });
+  const cls = op.p>=10?"fb-ok":op.p>0?"fb-mid":"fb-bad";
+  const tag = op.p>=10?"✔ Decisión correcta · +10 pts":op.p>0?"◐ Parcialmente correcta · +"+op.p+" pts":"✘ Decisión equivocada · +0 pts";
+  document.getElementById("fb").innerHTML = `
+    <div class="feedback ${cls}"><span class="fb-tag">${tag}</span>${esc(op.f)}</div>
+    <div class="nav-next"><button class="btn btn-acc" id="next">${i+1<s.pasos.length?"Siguiente decisión →":"Ver mi resultado"}</button></div>`;
+  const nx = document.getElementById("next");
+  nx.addEventListener("click",()=>{ state.i++; state.i<s.pasos.length? paso() : resultado(); });
+  nx.focus();
+}
+
+function resultado(){
+  const {s,score,ok,mid,bad,quien,grupo} = state;
+  const max = s.pasos.length*10;
+  const pct = Math.round(score/max*100);
+  const [niv,msg] = nivel(pct);
+  const prev = parseInt(lsGet(bestKey(s.id))||"0",10);
+  if(pct>prev) lsSet(bestKey(s.id), String(pct));
+  const fecha = new Date().toISOString().slice(0,10);
+  let codeHTML = "";
+  let code = null;
+  if(quien){
+    code = makeCode(["1", s.id, quien, grupo, String(score), String(max), fecha]);
+    codeHTML = `
+    <div class="codebox"><span class="lbl">Código de evidencia · entrégalo a tu profesor</span>${esc(code)}</div>
+    <button class="btn btn-ghost btn-block" id="copiar">Copiar código</button>
+    <p class="note" style="margin-top:10px">El código registra escenario, ${s.modo==="equipo"?"equipo":"nombre"}, grupo, puntaje y fecha. No puede alterarse: el profesor lo valida en la app.</p>`;
+  } else {
+    codeHTML = `<p class="note" style="margin-top:14px"><b>No se generó código de evidencia</b> porque entraste con la opción “Practicar sin registrar”. Es normal: ese modo es solo para practicar. Cuando quieras entregar evidencia, repite la misión y en la pantalla inicial escribe tu ${s.modo==="equipo"?"equipo y grupo":"nombre y grupo"}, y usa el botón “Comenzar la misión”.</p>`;
+  }
+  $app.innerHTML = `
+    <div class="result">
+      <span class="kicker">${esc(s.titulo)} · Misión completada${quien? " · "+esc(quien):""}</span>
+      <div class="pts">${score}<span style="font-size:1.1rem;color:var(--muted)"> / ${max}</span></div>
+      <div class="nivel">${niv}</div>
+      <p class="de">${esc(msg)}</p>
+      <div class="stats"><span>Correctas <b>${ok}</b></span><span>Parciales <b>${mid}</b></span><span>Falladas <b>${bad}</b></span></div>
+      ${codeHTML}
+      <div class="actions">
+        <button class="btn btn-acc btn-block" id="otra">Elegir otra misión</button>
+        <button class="btn btn-ghost btn-block" id="rep">Repetir esta misión</button>
+      </div>
+    </div>`;
+  const cop = document.getElementById("copiar");
+  if(cop) cop.addEventListener("click",async ()=>{
+    try{ await navigator.clipboard.writeText(code); cop.textContent="Código copiado ✔"; }
+    catch(e){ cop.textContent="Selecciónalo y cópialo manualmente"; }
+  });
+  document.getElementById("otra").addEventListener("click",home);
+  document.getElementById("rep").addEventListener("click",()=>intro(s.id));
+  window.scrollTo(0,0);
+}
+
+function docente(){
+  if(!esDocente()){
+    $app.innerHTML = `
+      <button class="back" id="back">← Volver al inicio</button>
+      <div class="sect"><h2>Acceso docente</h2><p class="sub">Esta área es solo para el profesor</p></div>
+      <div class="docente">
+        <form id="pinfrm">
+          <div class="field"><label for="pin">NIP docente</label><input id="pin" type="password" inputmode="text" autocomplete="off" placeholder="Escribe tu NIP"></div>
+          <button type="submit" class="btn btn-acc">Entrar</button>
+          <div class="msg" id="pinmsg"></div>
+        </form>
+      </div>`;
+    document.getElementById("back").addEventListener("click",home);
+    document.getElementById("pinfrm").addEventListener("submit",e=>{
+      e.preventDefault();
+      if(document.getElementById("pin").value.trim().toUpperCase()===String(CONFIG.pin).toUpperCase()){
+        try{ sessionStorage.setItem("mc_teacher","1"); }catch(err){}
+        docente();
+      } else {
+        document.getElementById("pinmsg").textContent="NIP incorrecto.";
+      }
+    });
+    window.scrollTo(0,0);
+    return;
+  }
+  const activosNow = CONFIG.activos===null ? SCN.map(s=>s.id) : CONFIG.activos;
+  $app.innerHTML = `
+    <button class="back" id="back">← Volver al inicio</button>
+    <div class="sect"><h2>Zona docente</h2><p class="sub">Activación de misiones, validación de códigos y herramientas para compartir</p></div>
+    <div class="docente">
+      <h3>Activar o bloquear misiones</h3>
+      <p>Marca las misiones que el grupo puede ver y jugar. ${IS_GH ? "En esta versión (GitHub) el botón te prepara el cambio exacto para guardarlo en el editor de GitHub: solo tú puedes hacerlo, con tu cuenta de GitHub." : "Al guardar, el cambio se publica para todos los alumnos (verán la lista actualizada al abrir o recargar la app). Solo tú, como dueño de la app, puedes publicar cambios: necesitas tener tu sesión de Claude iniciada en este navegador."}</p>
+      <div class="toggles" id="tgl">
+        ${SCN.map(s=>`<label><input type="checkbox" data-id="${s.id}" ${activosNow.includes(s.id)?"checked":""}> <span><b>${esc(s.titulo)}</b><br><span class="note">${esc(s.etiqueta)} · ${s.modo==="equipo"?"Equipo":"Individual"}</span></span></label>`).join("")}
+      </div>
+      <button class="btn btn-acc" id="pub">Guardar y publicar cambios</button>
+      <div class="msg" id="pubmsg"></div>
+    </div>
+    <div class="docente">
+      <h3>Validar un código</h3>
+      <p>Pega el código que entregó el alumno o el equipo. Si fue alterado en cualquier carácter, aparecerá como inválido.</p>
+      <div class="field"><textarea id="valin" rows="3" placeholder="SIM2-…" style="font-family:'JetBrains Mono',monospace;font-size:.85rem"></textarea></div>
+      <button class="btn btn-acc" id="valbtn">Validar</button>
+      <div id="valout"></div>
+    </div>
+    <div class="docente">
+      <h3>Compartir con el grupo</h3>
+      <p>Proyecta este código QR en clase o comparte el enlace de esta página por WhatsApp o Classroom. Los alumnos lo abren en el navegador del celular, sin instalar nada.</p>
+      <button class="btn btn-ghost" id="qrbtn">Mostrar QR de esta página</button>
+      <div id="qrwrap"></div>
+    </div>
+    <div class="docente">
+      <h3>Sugerencia de uso</h3>
+      <p>Los escenarios de <b>tema</b> funcionan como práctica individual formativa (intentos ilimitados; pida el código del mejor intento). Las <b>misiones por práctica</b> están pensadas para jugarse en equipo en el aula, un celular por equipo, antes de realizar la práctica real en campo.</p>
+      <button class="btn btn-ghost" id="salir">Cerrar acceso docente</button>
+    </div>`;
+  document.getElementById("back").addEventListener("click",home);
+  document.getElementById("salir").addEventListener("click",()=>{
+    try{ sessionStorage.removeItem("mc_teacher"); }catch(e){}
+    home();
+  });
+  document.getElementById("pub").addEventListener("click",async ()=>{
+    const btn = document.getElementById("pub"), msg = document.getElementById("pubmsg");
+    const nuevos = Array.from(document.querySelectorAll("#tgl input")).filter(c=>c.checked).map(c=>c.dataset.id);
+    const cfgNueva = {pin:CONFIG.pin, activos:nuevos};
+    if(IS_GH){
+      const linea = "window.MC_CONFIG="+JSON.stringify(cfgNueva)+";";
+      msg.innerHTML = `<b>Paso 1.</b> Copia esta línea completa:<br>
+        <textarea readonly rows="3" style="font-family:'JetBrains Mono',monospace;font-size:.78rem;margin:8px 0" onclick="this.select()">${esc(linea)}</textarea>
+        <b>Paso 2.</b> Abre el editor de GitHub con el botón de abajo, busca al inicio del archivo la línea que empieza con <b>window.MC_CONFIG</b> y reemplázala por la que copiaste.<br>
+        <b>Paso 3.</b> Toca “Commit changes” (guardar). En 1–2 minutos el cambio estará en línea para todos.<br>
+        <a href="${GH_EDIT_URL}" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-weight:600;color:var(--acc)">Abrir el editor de GitHub →</a>`;
+      return;
+    }
+    btn.disabled = true; msg.textContent = "Publicando cambios…";
+    try{
+      const ns = (window.claude && window.claude.use) ? await window.claude.use("artifact") : null;
+      if(!ns) throw {code:"no_ns"};
+      const cfg = {pin:CONFIG.pin, activos:nuevos};
+      const html = PRISTINE.replace(/window\.MC_CONFIG=\{[\s\S]*?\};/, "window.MC_CONFIG="+JSON.stringify(cfg)+";");
+      if(html===PRISTINE) throw {code:"no_cfg"};
+      await ns.publish(html);
+      msg.textContent = "Cambios publicados ✔ La app se actualizará sola en unos segundos.";
+    }catch(e){
+      btn.disabled = false;
+      if(e && e.code==="conflict"){ msg.textContent = "Hubo otro cambio más reciente; la app se recargará con la última versión. Vuelve a intentarlo después."; }
+      else { msg.textContent = "No se pudo publicar. Abre la app en un navegador donde tengas tu sesión de Claude iniciada (solo el dueño de la app puede publicar cambios) e inténtalo de nuevo."; }
+    }
+  });
+  document.getElementById("valbtn").addEventListener("click",()=>{
+    const r = readCode(document.getElementById("valin").value);
+    const out = document.getElementById("valout");
+    if(!r){ out.innerHTML = `<div class="val-out fb-bad"><b>Código inválido o alterado.</b> Verifica que esté completo y sin errores de captura.</div>`; return; }
+    const scn = SCN.find(x=>x.id===r.scn);
+    const pct = Math.round(parseInt(r.pts,10)/parseInt(r.max,10)*100);
+    const [niv] = nivel(pct);
+    out.innerHTML = `<div class="val-out fb-ok"><b>Código auténtico ✔</b><table>
+      <tr><td>Escenario</td><td>${scn?esc(scn.titulo)+" · "+esc(scn.etiqueta):esc(r.scn)}</td></tr>
+      <tr><td>${scn && scn.modo==="equipo"?"Equipo":"Alumno(a)"}</td><td>${esc(r.quien)}</td></tr>
+      <tr><td>Grupo</td><td>${esc(r.grupo)}</td></tr>
+      <tr><td>Resultado</td><td>${esc(r.pts)} / ${esc(r.max)} pts (${pct}%) · ${niv}</td></tr>
+      <tr><td>Fecha</td><td>${esc(r.fecha)}</td></tr></table></div>`;
+  });
+  document.getElementById("qrbtn").addEventListener("click",()=>{
+    const w = document.getElementById("qrwrap");
+    w.innerHTML = `<div id="qrbox" role="img" aria-label="Código QR del enlace de la app">${QR_SVG}</div><p class="note" style="text-align:center;word-break:break-all">${esc(APP_URL)}</p>`;
+  });
+  window.scrollTo(0,0);
+}
+
+home();
+</script>
