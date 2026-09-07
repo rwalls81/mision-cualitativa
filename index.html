@@ -1,5 +1,6 @@
 <title>Misión Cualitativa</title>
 <meta name="robots" content="noindex, nofollow">
+<script id="mc-config">window.MC_CONFIG={"pin":"RP2026","clave":"SONORA26","activos":["T1"]};</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
 :root{
@@ -124,7 +125,6 @@ label{font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:upper
 <div class="footer">SIM II · Sistemas de Investigación de Mercados II · Universidad Tecnológica de Hermosillo<br>Proyecto “De Sonora para el mundo” · Dr. Raúl Paredes</div>
 </div>
 
-<script id="mc-config">window.MC_CONFIG={"pin":"RP2026","clave":"SONORA26","activos":["T1"]};</script>
 <script>
 "use strict";
 const IS_GH = location.hostname.endsWith("github.io");
@@ -849,7 +849,7 @@ function docente(){
       const linea = "window.MC_CONFIG="+JSON.stringify(cfgNueva)+";";
       msg.innerHTML = `<b>Paso 1.</b> Copia esta línea completa:<br>
         <textarea readonly rows="3" style="font-family:'JetBrains Mono',monospace;font-size:.78rem;margin:8px 0" onclick="this.select()">${esc(linea)}</textarea>
-        <b>Paso 2.</b> Abre el editor de GitHub con el botón de abajo, busca al inicio del archivo la línea que empieza con <b>window.MC_CONFIG</b> y reemplázala por la que copiaste.<br>
+        <b>Paso 2.</b> Abre el editor de GitHub con el botón de abajo. La línea a reemplazar es la <b>línea 3</b> del archivo, hasta arriba: empieza con <b>&lt;script id="mc-config"&gt;window.MC_CONFIG</b>. Borra solo la parte que va de <b>window.MC_CONFIG</b> hasta el <b>;</b> (sin tocar las etiquetas &lt;script&gt;) y pega ahí la línea copiada.<br>
         <b>Paso 3.</b> Toca “Commit changes” (guardar). En 1–2 minutos el cambio estará en línea para todos.<br>
         <a href="${GH_EDIT_URL}" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-weight:600;color:var(--acc)">Abrir el editor de GitHub →</a>`;
       return;
