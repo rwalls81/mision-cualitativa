@@ -1,6 +1,6 @@
 <title>Misión Cualitativa</title>
 <meta name="robots" content="noindex, nofollow">
-<script id="mc-config">window.MC_CONFIG={"pin":"P4r3d35","clave":"SIMII26","activos":["T1"]};</script>
+<script id="mc-config">window.MC_CONFIG={"pin":"RP2026","clave":"SONORA26","activos":["T1"]};</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
 :root{
@@ -525,34 +525,40 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">"
 function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 
-/* ---- Código de verificación ---- */
+/* ---- Código de evidencia corto (10 caracteres) ---- */
 const KEY = "KINO-URES-2026";
-function toB64u(bytes){ let s=""; bytes.forEach(b=>s+=String.fromCharCode(b)); return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
-function fromB64u(str){ str=str.replace(/-/g,"+").replace(/_/g,"/"); while(str.length%4)str+="="; const bin=atob(str); const a=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i); return a; }
-function makeCode(fields){ // fields: array of strings
-  const payload = fields.map(f=>String(f).replace(/\|/g,"/")).join("|");
-  const data = new TextEncoder().encode(payload);
-  let sum=0; data.forEach(b=>sum=(sum+b)%251);
-  const out = new Uint8Array(data.length+1);
-  for(let i=0;i<data.length;i++) out[i]=data[i]^KEY.charCodeAt(i%KEY.length);
-  out[data.length]=sum;
-  const b64=toB64u(out);
-  return "SIM2-"+(b64.match(/.{1,4}/g)||[]).join("-");
+const AB = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"; // sin 0, O, 1, I para evitar confusiones al dictar
+const CODE_IDS = ["T1","T2","T3","P2","P3","P4","P5","P6"]; // solo AGREGAR al final; nunca reordenar
+function normName(s){ return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9]/g,""); }
+function h32(str){ let h=0x811c9dc5; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; } h^=h>>>13; h=Math.imul(h,0x5bd1e995)>>>0; h^=h>>>15; return h>>>0; }
+function hoyDias(){ const n=new Date(); const d=Math.floor((Date.UTC(n.getFullYear(),n.getMonth(),n.getDate())-Date.UTC(2026,0,1))/86400000); return Math.max(0,Math.min(4095,d)); }
+function macDe(scnIdx,score,dias,grpIdx,nombre){ return h32([1,scnIdx,score,dias,grpIdx,normName(nombre),KEY].join("|")) & 0x7FFFFF; }
+function makeShortCode(scnId,nombre,grupo,score){
+  const scnIdx = CODE_IDS.indexOf(scnId); if(scnIdx<0) return null;
+  const grpIdx = Math.max(0, GRUPOS.indexOf(grupo));
+  const dias = hoyDias();
+  const sc = Math.max(0,Math.min(127,score));
+  let v = 0n;
+  v=(v<<2n)|1n; v=(v<<4n)|BigInt(scnIdx); v=(v<<7n)|BigInt(sc); v=(v<<12n)|BigInt(dias); v=(v<<2n)|BigInt(grpIdx); v=(v<<23n)|BigInt(macDe(scnIdx,sc,dias,grpIdx,nombre));
+  let s=""; for(let k=0;k<10;k++){ s=AB[Number(v&31n)]+s; v>>=5n; }
+  return s.slice(0,5)+"-"+s.slice(5);
 }
-function readCode(code){
+function readShortCode(code,nombre){
   try{
-    const clean = code.trim().toUpperCase().startsWith("SIM2-") ? code.trim().slice(5) : code.trim();
-    const b64 = clean.replace(/[-\s]/g,"");
-    const arr = fromB64u(b64);
-    if(arr.length<2) return null;
-    const body = arr.slice(0,arr.length-1), chk = arr[arr.length-1];
-    const data = new Uint8Array(body.length);
-    for(let i=0;i<body.length;i++) data[i]=body[i]^KEY.charCodeAt(i%KEY.length);
-    let sum=0; data.forEach(b=>sum=(sum+b)%251);
-    if(sum!==chk) return null;
-    const parts = new TextDecoder().decode(data).split("|");
-    if(parts.length!==7 || parts[0]!=="1") return null;
-    return {scn:parts[1], quien:parts[2], grupo:parts[3], pts:parts[4], max:parts[5], fecha:parts[6]};
+    const cl = String(code).toUpperCase().replace(/[^A-Z0-9]/g,"");
+    if(cl.length!==10) return null;
+    let v=0n;
+    for(const ch of cl){ const k=AB.indexOf(ch); if(k<0) return null; v=(v<<5n)|BigInt(k); }
+    const mac=Number(v&0x7FFFFFn); v>>=23n;
+    const grpIdx=Number(v&3n); v>>=2n;
+    const dias=Number(v&4095n); v>>=12n;
+    const score=Number(v&127n); v>>=7n;
+    const scnIdx=Number(v&15n); v>>=4n;
+    const ver=Number(v&3n);
+    if(ver!==1 || scnIdx>=CODE_IDS.length) return null;
+    if(mac!==macDe(scnIdx,score,dias,grpIdx,nombre)) return null;
+    const f=new Date(Date.UTC(2026,0,1)+dias*86400000).toISOString().slice(0,10);
+    return {scn:CODE_IDS[scnIdx], grupo:GRUPOS[grpIdx], pts:score, fecha:f};
   }catch(e){ return null; }
 }
 
@@ -673,8 +679,8 @@ function intro(id){
       </div>
     </form>`;
   document.getElementById("back").addEventListener("click",home);
-  const start = (quien,grupo)=>{
-    state = {s, i:0, score:0, ok:0, mid:0, bad:0, quien, grupo,
+  const start = (quien,grupo,qcode)=>{
+    state = {s, i:0, score:0, ok:0, mid:0, bad:0, quien, grupo, qcode: qcode||quien,
       orden: s.pasos.map(p=>{ const idx=p.o.map((_,k)=>k); for(let j=idx.length-1;j>0;j--){const r=Math.floor(Math.random()*(j+1));[idx[j],idx[r]]=[idx[r],idx[j]];} return idx; })};
     paso();
   };
@@ -683,7 +689,7 @@ function intro(id){
     const quien = document.getElementById("f1").value.trim();
     if(!quien){ document.getElementById("f1").focus(); return; }
     const extra = equipo && document.getElementById("f3").value.trim();
-    start(quien + (extra? " ("+extra+")":""), document.getElementById("f2").value);
+    start(quien + (extra? " ("+extra+")":""), document.getElementById("f2").value, quien);
   });
   document.getElementById("libre").addEventListener("click",()=>start(null,null));
   window.scrollTo(0,0);
@@ -742,11 +748,11 @@ function resultado(){
   let codeHTML = "";
   let code = null;
   if(quien){
-    code = makeCode(["1", s.id, quien, grupo, String(score), String(max), fecha]);
+    code = makeShortCode(s.id, state.qcode, grupo, score);
     codeHTML = `
-    <div class="codebox"><span class="lbl">Código de evidencia · entrégalo a tu profesor</span>${esc(code)}</div>
+    <div class="codebox"><span class="lbl">Código de evidencia · entrégalo a tu profesor</span><span style="font-size:1.35rem;letter-spacing:.08em">${esc(code)}</span></div>
     <button class="btn btn-ghost btn-block" id="copiar">Copiar código</button>
-    <p class="note" style="margin-top:10px">El código registra escenario, ${s.modo==="equipo"?"equipo":"nombre"}, grupo, puntaje y fecha. No puede alterarse: el profesor lo valida en la app.</p>`;
+    <p class="note" style="margin-top:10px">Entrega el código junto con este ${s.modo==="equipo"?"nombre de equipo":"nombre"}: <b>${esc(state.qcode)}</b>. El código va amarrado a ese nombre, al grupo, al puntaje y a la fecha de hoy; el profesor lo valida en la app y no funciona con otro nombre.</p>`;
   } else {
     codeHTML = `<p class="note" style="margin-top:14px"><b>No se generó código de evidencia</b> porque entraste con la opción “Practicar sin registrar”. Es normal: ese modo es solo para practicar. Cuando quieras entregar evidencia, repite la misión y en la pantalla inicial escribe tu ${s.modo==="equipo"?"equipo y grupo":"nombre y grupo"}, y usa el botón “Comenzar la misión”.</p>`;
   }
@@ -817,8 +823,9 @@ function docente(){
     </div>
     <div class="docente">
       <h3>Validar un código</h3>
-      <p>Pega el código que entregó el alumno o el equipo. Si fue alterado en cualquier carácter, aparecerá como inválido.</p>
-      <div class="field"><textarea id="valin" rows="3" placeholder="SIM2-…" style="font-family:'JetBrains Mono',monospace;font-size:.85rem"></textarea></div>
+      <p>Escribe el código (10 caracteres) y el nombre del alumno o equipo tal como lo registró en la app (no importan mayúsculas ni acentos). Si el código fue alterado o corresponde a otro nombre, aparecerá como inválido.</p>
+      <div class="field"><label for="valin">Código</label><input id="valin" placeholder="XXXXX-XXXXX" autocomplete="off" style="font-family:'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase"></div>
+      <div class="field"><label for="valnm">Nombre o equipo registrado</label><input id="valnm" autocomplete="off" placeholder="Como lo escribió en la app"></div>
       <button class="btn btn-acc" id="valbtn">Validar</button>
       <div id="valout"></div>
     </div>
@@ -869,17 +876,20 @@ function docente(){
     }
   });
   document.getElementById("valbtn").addEventListener("click",()=>{
-    const r = readCode(document.getElementById("valin").value);
     const out = document.getElementById("valout");
-    if(!r){ out.innerHTML = `<div class="val-out fb-bad"><b>Código inválido o alterado.</b> Verifica que esté completo y sin errores de captura.</div>`; return; }
+    const nm = document.getElementById("valnm").value.trim();
+    if(!nm){ out.innerHTML = `<div class="val-out fb-bad"><b>Falta el nombre.</b> El código se valida junto con el nombre o equipo registrado.</div>`; return; }
+    const r = readShortCode(document.getElementById("valin").value, nm);
+    if(!r){ out.innerHTML = `<div class="val-out fb-bad"><b>Código inválido.</b> O el código está mal capturado o alterado, o no corresponde a ese nombre. Verifica ambos tal como aparecen en la evidencia del alumno.</div>`; return; }
     const scn = SCN.find(x=>x.id===r.scn);
-    const pct = Math.round(parseInt(r.pts,10)/parseInt(r.max,10)*100);
+    const max = scn ? scn.pasos.length*10 : 0;
+    const pct = max ? Math.round(r.pts/max*100) : 0;
     const [niv] = nivel(pct);
     out.innerHTML = `<div class="val-out fb-ok"><b>Código auténtico ✔</b><table>
       <tr><td>Escenario</td><td>${scn?esc(scn.titulo)+" · "+esc(scn.etiqueta):esc(r.scn)}</td></tr>
-      <tr><td>${scn && scn.modo==="equipo"?"Equipo":"Alumno(a)"}</td><td>${esc(r.quien)}</td></tr>
+      <tr><td>${scn && scn.modo==="equipo"?"Equipo":"Alumno(a)"}</td><td>${esc(nm)}</td></tr>
       <tr><td>Grupo</td><td>${esc(r.grupo)}</td></tr>
-      <tr><td>Resultado</td><td>${esc(r.pts)} / ${esc(r.max)} pts (${pct}%) · ${niv}</td></tr>
+      <tr><td>Resultado</td><td>${r.pts} / ${max} pts (${pct}%) · ${niv}</td></tr>
       <tr><td>Fecha</td><td>${esc(r.fecha)}</td></tr></table></div>`;
   });
   document.getElementById("qrbtn").addEventListener("click",()=>{
