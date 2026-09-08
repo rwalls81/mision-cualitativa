@@ -132,13 +132,14 @@ const APP_URL = IS_GH ? "https://rwalls81.github.io/mision-cualitativa/" : "http
 const GH_EDIT_URL = "https://github.com/rwalls81/mision-cualitativa/edit/main/index.html";
 const FORM_SHORT = "https://forms.gle/US9ihv7rgvG1femP6";
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe2pbwXH7YdeUCLDghMLQ4d24Fbpkg-1gPzt_GO9elGj9Q3Lg/viewform";
-const FORM_ENTRIES = {grupo:"entry.500626170", nombre:"entry.488700239", codigo:"entry.1854105470", escenario:"entry.20994088"};
-function formLink(code, grupo, nombre, escenario){
+const FORM_ENTRIES = {grupo:"entry.500626170", nombre:"entry.488700239", codigo:"entry.1854105470", escenario:"entry.20994088", puntaje:"entry.729277814"};
+function formLink(code, grupo, nombre, escenario, puntaje){
   const g = String(grupo||"").replace("MKT ","");
   const p = new URLSearchParams({usp:"pp_url"});
   p.set(FORM_ENTRIES.codigo, code);
   if(nombre) p.set(FORM_ENTRIES.nombre, nombre);
   if(escenario) p.set(FORM_ENTRIES.escenario, escenario);
+  if(puntaje) p.set(FORM_ENTRIES.puntaje, puntaje);
   if(["4-1","4-2","4-3"].includes(g)) p.set(FORM_ENTRIES.grupo, g);
   return FORM_URL+"?"+p.toString();
 }
@@ -764,7 +765,7 @@ function resultado(){
     code = makeShortCode(s.id, state.qcode, grupo, score);
     codeHTML = `
     <div class="codebox"><span class="lbl">Código de evidencia · entrégalo a tu profesor</span><span style="font-size:1.35rem;letter-spacing:.08em">${esc(code)}</span></div>
-    <a class="btn btn-acc btn-block" style="display:block;text-align:center;text-decoration:none" href="${esc(formLink(code, grupo, state.qcode, s.etiqueta+" — "+s.titulo))}" target="_blank" rel="noopener">Registrar mi actividad en el formulario</a>
+    <a class="btn btn-acc btn-block" style="display:block;text-align:center;text-decoration:none" href="${esc(formLink(code, grupo, state.qcode, s.etiqueta+" — "+s.titulo, score+" / "+max))}" target="_blank" rel="noopener">Registrar mi actividad en el formulario</a>
     <button class="btn btn-ghost btn-block" id="copiar">Copiar código</button>
     <p class="note" style="margin-top:10px">El botón abre el formulario de reporte con todos los datos ya escritos (grupo, ${s.modo==="equipo"?"equipo":"nombre"}, escenario y código): revisa y envía.${s.modo==="equipo"?" En modo equipo se registra el NOMBRE DEL EQUIPO; cada integrante envía su propio registro con este mismo código.":""} El código va amarrado al ${s.modo==="equipo"?"nombre de equipo":"nombre"} <b>${esc(state.qcode)}</b>, al grupo, al puntaje y a la fecha; el profesor lo valida en la app y no funciona con otro nombre.</p>`;
   } else {
