@@ -106,7 +106,7 @@ label{font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:upper
 .val-out table{width:100%;border-collapse:collapse;font-size:.88rem}
 .val-out td{padding:4px 6px;vertical-align:top}
 .val-out td:first-child{font-weight:600;white-space:nowrap;color:var(--muted)}
-#qrbox{display:flex;justify-content:center;padding:14px;background:#fff;border-radius:12px;margin-top:10px}
+#qrbox,.qrbox{display:flex;justify-content:center;padding:14px;background:#fff;border-radius:12px;margin-top:10px}
 .back{background:none;border:none;color:var(--acc);font-weight:600;font-size:.9rem;padding:6px 0;display:inline-flex;align-items:center;gap:5px}
 .ctx{background:var(--surface2);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:.93rem}
 .ctx .ct{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--clay);display:block;margin-bottom:5px}
@@ -130,6 +130,17 @@ label{font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:upper
 const IS_GH = location.hostname.endsWith("github.io");
 const APP_URL = IS_GH ? "https://rwalls81.github.io/mision-cualitativa/" : "https://claude.ai/code/artifact/a234cda5-b429-49d1-8fc2-3fee9f6a984c";
 const GH_EDIT_URL = "https://github.com/rwalls81/mision-cualitativa/edit/main/index.html";
+const FORM_SHORT = "https://forms.gle/US9ihv7rgvG1femP6";
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe2pbwXH7YdeUCLDghMLQ4d24Fbpkg-1gPzt_GO9elGj9Q3Lg/viewform";
+const FORM_ENTRIES = {grupo:"entry.500626170", codigo:"entry.1854105470"};
+function formLink(code, grupo){
+  const g = String(grupo||"").replace("MKT ","");
+  const p = new URLSearchParams({usp:"pp_url"});
+  p.set(FORM_ENTRIES.codigo, code);
+  if(["4-1","4-2","4-3"].includes(g)) p.set(FORM_ENTRIES.grupo, g);
+  return FORM_URL+"?"+p.toString();
+}
+const QR_FORM = '<svg width="198" height="198" class="segno"><path transform="scale(6)" class="qrline" stroke="#22302b" d="M2 2.5h7m1 0h1m1 0h4m1 0h1m1 0h4m1 0h7m-29 1h1m5 0h1m1 0h1m1 0h2m1 0h1m3 0h1m4 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m3 0h3m3 0h1m2 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h2m1 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h1m2 0h1m2 0h3m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m2 0h5m2 0h5m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h4m3 0h3m2 0h1m-21 1h1m1 0h2m1 0h3m1 0h1m1 0h1m1 0h1m3 0h1m2 0h1m1 0h1m2 0h1m1 0h2m-29 1h1m3 0h1m5 0h5m4 0h1m2 0h3m3 0h1m-29 1h1m3 0h1m1 0h4m1 0h3m4 0h1m7 0h2m-24 1h1m2 0h1m1 0h4m3 0h1m1 0h1m2 0h1m1 0h2m3 0h1m-27 1h1m3 0h2m2 0h1m1 0h1m1 0h4m2 0h2m3 0h2m-25 1h2m7 0h1m2 0h1m1 0h3m3 0h1m3 0h3m-27 1h1m2 0h3m3 0h3m3 0h1m1 0h3m2 0h1m1 0h3m-29 1h1m3 0h2m1 0h2m1 0h2m2 0h3m1 0h1m1 0h3m1 0h1m2 0h1m-28 1h3m1 0h1m1 0h1m5 0h1m1 0h2m2 0h1m2 0h1m2 0h2m1 0h1m-25 1h1m1 0h1m1 0h2m1 0h2m2 0h2m3 0h2m2 0h1m1 0h3m-28 1h1m5 0h1m1 0h3m2 0h5m2 0h1m2 0h1m2 0h1m-24 1h1m1 0h1m4 0h1m1 0h3m1 0h4m1 0h2m1 0h1m1 0h1m-26 1h2m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2m1 0h3m1 0h7m-19 1h1m2 0h2m3 0h1m3 0h1m3 0h5m-29 1h7m1 0h1m1 0h3m1 0h1m3 0h3m1 0h1m1 0h2m1 0h1m-28 1h1m5 0h1m1 0h2m1 0h5m3 0h2m3 0h2m1 0h1m-28 1h1m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m4 0h5m1 0h2m-28 1h1m1 0h3m1 0h1m1 0h6m1 0h3m1 0h3m1 0h3m2 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m2 0h2m3 0h2m4 0h1m2 0h1m1 0h1m-29 1h1m5 0h1m2 0h3m1 0h1m1 0h1m4 0h1m1 0h1m2 0h1m1 0h1m-28 1h7m1 0h3m2 0h1m2 0h1m2 0h2m6 0h1"/></svg>';
 const QR_SVG = IS_GH ? '<svg width="222" height="222" class="segno"><path transform="scale(6)" class="qrline" stroke="#22302b" d="M2 2.5h7m3 0h1m1 0h3m1 0h2m3 0h1m4 0h7m-33 1h1m5 0h1m1 0h3m1 0h1m2 0h2m1 0h3m3 0h1m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m3 0h1m4 0h1m3 0h1m1 0h1m4 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h1m1 0h1m2 0h5m1 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h2m3 0h3m1 0h1m4 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m2 0h2m3 0h4m3 0h3m2 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h1m3 0h2m1 0h1m6 0h1m-22 1h1m1 0h4m1 0h3m4 0h3m1 0h1m2 0h1m1 0h3m1 0h2m1 0h1m-32 1h1m6 0h2m1 0h2m3 0h1m1 0h3m1 0h1m1 0h1m4 0h3m-30 1h2m1 0h1m1 0h3m1 0h1m2 0h2m5 0h5m3 0h5m-29 1h2m10 0h2m2 0h1m1 0h2m1 0h1m1 0h1m2 0h2m-32 1h4m1 0h4m1 0h2m2 0h1m1 0h4m6 0h2m3 0h1m-32 1h2m2 0h2m1 0h1m3 0h2m5 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-30 1h4m1 0h2m1 0h6m2 0h1m1 0h5m3 0h1m2 0h1m-30 1h1m1 0h4m1 0h2m3 0h2m2 0h1m1 0h1m1 0h1m1 0h4m2 0h1m1 0h1m1 0h1m-33 1h1m2 0h1m2 0h1m2 0h1m2 0h1m2 0h2m1 0h2m3 0h7m-30 1h2m1 0h1m1 0h1m1 0h5m1 0h2m3 0h4m3 0h2m1 0h1m1 0h1m1 0h1m-28 1h2m2 0h3m1 0h2m1 0h1m1 0h2m1 0h3m3 0h1m1 0h2m1 0h1m-32 1h3m4 0h5m4 0h1m1 0h2m1 0h1m1 0h1m3 0h4m-32 1h4m1 0h2m1 0h1m1 0h3m2 0h4m5 0h1m4 0h1m2 0h1m-33 1h1m1 0h2m1 0h1m2 0h1m1 0h5m4 0h1m3 0h1m3 0h3m-30 1h1m2 0h1m2 0h2m1 0h2m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m2 0h1m4 0h2m-33 1h1m2 0h1m1 0h1m1 0h1m2 0h1m3 0h2m1 0h2m1 0h1m2 0h1m2 0h1m3 0h1m1 0h1m-33 1h2m2 0h5m1 0h1m2 0h1m1 0h2m1 0h3m1 0h1m1 0h6m-22 1h3m1 0h1m1 0h1m3 0h1m5 0h1m3 0h1m1 0h2m-32 1h7m4 0h3m1 0h3m1 0h3m1 0h2m1 0h1m1 0h1m1 0h2m-32 1h1m5 0h1m1 0h3m2 0h1m1 0h1m1 0h3m2 0h3m3 0h3m-31 1h1m1 0h3m1 0h1m1 0h2m2 0h3m1 0h1m5 0h7m3 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m3 0h10m2 0h1m1 0h1m4 0h1m-33 1h1m1 0h3m1 0h1m2 0h2m1 0h3m1 0h2m1 0h1m4 0h1m2 0h2m1 0h3m-33 1h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h5m6 0h6m-33 1h7m4 0h4m3 0h2m4 0h5"/></svg>' : '<svg width="246" height="246" class="segno"><path transform="scale(6)" class="qrline" stroke="#22302b" d="M2 2.5h7m3 0h2m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m4 0h1m1 0h7m-37 1h1m5 0h1m2 0h1m2 0h2m3 0h3m4 0h1m2 0h1m2 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h3m2 0h2m1 0h1m1 0h4m4 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h1m6 0h4m1 0h1m2 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h2m2 0h1m1 0h3m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h1m1 0h5m3 0h1m1 0h1m5 0h2m2 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m1 0h4m7 0h2m1 0h1m1 0h1m1 0h1m-29 1h1m1 0h5m2 0h1m3 0h2m3 0h1m1 0h2m3 0h2m3 0h5m-32 1h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h2m4 0h1m1 0h3m2 0h2m3 0h3m-36 1h1m1 0h2m2 0h2m3 0h4m2 0h2m1 0h3m1 0h1m2 0h2m1 0h2m3 0h2m-36 1h3m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m4 0h1m2 0h1m1 0h1m2 0h1m1 0h3m2 0h1m-36 1h1m4 0h1m1 0h1m4 0h2m2 0h2m3 0h4m1 0h1m1 0h2m1 0h5m-33 1h1m4 0h2m2 0h2m1 0h2m1 0h3m1 0h1m7 0h1m3 0h1m-36 1h2m1 0h2m1 0h5m2 0h5m2 0h2m4 0h3m2 0h3m2 0h1m-36 1h2m1 0h1m2 0h1m2 0h1m2 0h1m1 0h7m1 0h1m2 0h3m1 0h3m-33 1h1m1 0h1m2 0h2m2 0h1m1 0h1m4 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4m1 0h1m1 0h1m1 0h1m-37 1h4m1 0h1m2 0h3m1 0h1m1 0h2m2 0h1m1 0h1m2 0h4m7 0h2m-34 1h1m2 0h2m1 0h2m5 0h2m2 0h1m1 0h1m3 0h5m1 0h1m3 0h2m-35 1h4m2 0h1m2 0h1m1 0h1m1 0h1m2 0h5m1 0h1m1 0h3m1 0h1m2 0h1m2 0h1m-37 1h2m2 0h1m1 0h1m1 0h1m2 0h1m1 0h3m1 0h1m1 0h1m2 0h5m2 0h2m1 0h1m1 0h1m-30 1h1m1 0h1m2 0h1m1 0h1m1 0h1m3 0h2m3 0h3m2 0h1m4 0h1m1 0h1m-35 1h1m1 0h1m1 0h6m2 0h1m1 0h2m1 0h1m3 0h1m4 0h1m1 0h5m2 0h1m-37 1h1m2 0h1m4 0h3m2 0h4m3 0h1m5 0h3m2 0h2m3 0h1m-36 1h4m1 0h1m1 0h2m1 0h1m2 0h2m2 0h1m1 0h3m2 0h3m1 0h4m1 0h3m-37 1h6m1 0h1m4 0h1m1 0h3m4 0h1m1 0h2m-25 1h1m1 0h1m3 0h2m9 0h2m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m2 0h1m1 0h2m-37 1h1m1 0h2m4 0h2m2 0h3m1 0h1m4 0h1m2 0h1m1 0h1m2 0h3m1 0h1m2 0h1m-37 1h1m1 0h3m1 0h3m2 0h1m4 0h2m2 0h1m1 0h1m1 0h9m1 0h3m-29 1h2m2 0h1m4 0h5m1 0h1m3 0h2m3 0h2m1 0h1m-36 1h7m2 0h2m2 0h5m2 0h2m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h1m5 0h1m1 0h2m2 0h4m1 0h3m1 0h2m5 0h1m3 0h2m-34 1h1m1 0h3m1 0h1m1 0h3m1 0h5m4 0h1m2 0h2m1 0h6m1 0h1m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h4m1 0h1m2 0h1m1 0h4m1 0h2m2 0h2m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h2m2 0h1m1 0h1m2 0h3m2 0h1m5 0h2m-37 1h1m5 0h1m2 0h1m2 0h4m2 0h6m2 0h1m1 0h1m1 0h1m1 0h1m3 0h1m-37 1h7m1 0h2m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h4m1 0h1m2 0h5"/></svg>';
 const PRISTINE = "<!doctype html>\n" + document.documentElement.outerHTML;
 const CONFIG = (window.MC_CONFIG && Array.isArray(window.MC_CONFIG.activos)) ? window.MC_CONFIG : {pin:"RP2026", activos:null};
@@ -751,8 +762,9 @@ function resultado(){
     code = makeShortCode(s.id, state.qcode, grupo, score);
     codeHTML = `
     <div class="codebox"><span class="lbl">Código de evidencia · entrégalo a tu profesor</span><span style="font-size:1.35rem;letter-spacing:.08em">${esc(code)}</span></div>
+    <a class="btn btn-acc btn-block" style="display:block;text-align:center;text-decoration:none" href="${esc(formLink(code, grupo))}" target="_blank" rel="noopener">Registrar mi actividad en el formulario</a>
     <button class="btn btn-ghost btn-block" id="copiar">Copiar código</button>
-    <p class="note" style="margin-top:10px">Entrega el código junto con este ${s.modo==="equipo"?"nombre de equipo":"nombre"}: <b>${esc(state.qcode)}</b>. El código va amarrado a ese nombre, al grupo, al puntaje y a la fecha de hoy; el profesor lo valida en la app y no funciona con otro nombre.</p>`;
+    <p class="note" style="margin-top:10px">El botón abre el formulario de reporte con tu grupo y tu código ya escritos: solo agrega tu nombre completo (empezando por apellido paterno) y envía.${s.modo==="equipo"?" En modo equipo, CADA integrante envía su propio registro con este mismo código.":""} El código va amarrado al ${s.modo==="equipo"?"nombre de equipo":"nombre"} <b>${esc(state.qcode)}</b>, al grupo, al puntaje y a la fecha; el profesor lo valida en la app y no funciona con otro nombre.</p>`;
   } else {
     codeHTML = `<p class="note" style="margin-top:14px"><b>No se generó código de evidencia</b> porque entraste con la opción “Practicar sin registrar”. Es normal: ese modo es solo para practicar. Cuando quieras entregar evidencia, repite la misión y en la pantalla inicial escribe tu ${s.modo==="equipo"?"equipo y grupo":"nombre y grupo"}, y usa el botón “Comenzar la misión”.</p>`;
   }
@@ -834,6 +846,9 @@ function docente(){
       <p>Proyecta este código QR en clase o comparte el enlace de esta página por WhatsApp o Classroom. Los alumnos lo abren en el navegador del celular, sin instalar nada.</p>
       <button class="btn btn-ghost" id="qrbtn">Mostrar QR de esta página</button>
       <div id="qrwrap"></div>
+      <p style="margin-top:14px">También puedes proyectar el QR del formulario de reporte de actividades, por si algún alumno necesita abrirlo directamente:</p>
+      <button class="btn btn-ghost" id="qrfbtn">Mostrar QR del formulario</button>
+      <div id="qrfwrap"></div>
     </div>
     <div class="docente">
       <h3>Sugerencia de uso</h3>
@@ -894,7 +909,11 @@ function docente(){
   });
   document.getElementById("qrbtn").addEventListener("click",()=>{
     const w = document.getElementById("qrwrap");
-    w.innerHTML = `<div id="qrbox" role="img" aria-label="Código QR del enlace de la app">${QR_SVG}</div><p class="note" style="text-align:center;word-break:break-all">${esc(APP_URL)}</p>`;
+    w.innerHTML = `<div class="qrbox" role="img" aria-label="Código QR del enlace de la app">${QR_SVG}</div><p class="note" style="text-align:center;word-break:break-all">${esc(APP_URL)}</p>`;
+  });
+  document.getElementById("qrfbtn").addEventListener("click",()=>{
+    const w = document.getElementById("qrfwrap");
+    w.innerHTML = `<div class="qrbox" role="img" aria-label="Código QR del formulario de reporte">${QR_FORM}</div><p class="note" style="text-align:center;word-break:break-all">${esc(FORM_SHORT)}</p>`;
   });
   window.scrollTo(0,0);
 }
