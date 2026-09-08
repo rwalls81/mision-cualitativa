@@ -845,6 +845,13 @@ function docente(){
       <div id="valout"></div>
     </div>
     <div class="docente">
+      <h3>Validación masiva</h3>
+      <p>Copia desde tu Excel o Google Sheets de respuestas las filas a revisar (una fila por alumno, con todas sus columnas tal cual) y pégalas aquí. La app localiza en cada fila el código y el nombre, valida todo y te devuelve nombre, práctica y calificación en el mismo orden, listos para copiar de regreso a tu hoja.</p>
+      <div class="field"><textarea id="masin" rows="7" placeholder="Pega aquí las filas copiadas del Excel…" style="font-size:.82rem"></textarea></div>
+      <button class="btn btn-acc" id="masbtn">Validar todo</button>
+      <div id="masout"></div>
+    </div>
+    <div class="docente">
       <h3>Compartir con el grupo</h3>
       <p>Proyecta este código QR en clase o comparte el enlace de esta página por WhatsApp o Classroom. Los alumnos lo abren en el navegador del celular, sin instalar nada.</p>
       <button class="btn btn-ghost" id="qrbtn">Mostrar QR de esta página</button>
@@ -909,6 +916,57 @@ function docente(){
       <tr><td>Grupo</td><td>${esc(r.grupo)}</td></tr>
       <tr><td>Resultado</td><td>${r.pts} / ${max} pts (${pct}%) · ${niv}</td></tr>
       <tr><td>Fecha</td><td>${esc(r.fecha)}</td></tr></table></div>`;
+  });
+  document.getElementById("masbtn").addEventListener("click",()=>{
+    const out = document.getElementById("masout");
+    const filas = document.getElementById("masin").value.split(/\r?\n/).map(r=>r.trim()).filter(r=>r);
+    if(!filas.length){ out.innerHTML = `<div class="val-out fb-bad">No hay filas que validar: pega primero las filas copiadas de tu hoja.</div>`; return; }
+    const vistos = {};
+    const res = filas.map((fila,idx)=>{
+      let cells = fila.split("\t").map(c=>c.trim().replace(/^"|"$/g,"")).filter(c=>c);
+      if(cells.length<2) cells = fila.split(/[;,]/).map(c=>c.trim().replace(/^"|"$/g,"")).filter(c=>c);
+      const candidatos = cells.filter(c=>{ const cl=c.toUpperCase().replace(/[^A-Z0-9]/g,""); return cl.length===10 && [...cl].every(ch=>AB.includes(ch)); });
+      if(!candidatos.length) return {idx, estado:"sin-codigo"};
+      for(const cand of candidatos){
+        for(const cell of cells){
+          if(cell===cand) continue;
+          const r = readShortCode(cand, cell);
+          if(r){
+            const clave = cand.toUpperCase().replace(/[^A-Z0-9]/g,"");
+            const dup = vistos[clave];
+            if(dup===undefined) vistos[clave]=idx+1;
+            const scn = SCN.find(x=>x.id===r.scn);
+            const max = scn ? scn.pasos.length*10 : 0;
+            const esEq = scn && scn.modo==="equipo";
+            const estado = dup===undefined ? "ok" : (esEq ? "eq" : "dup");
+            return {idx, estado, dupDe:dup, nombre:cell, prac:r.scn, calif: max?Math.round(r.pts/max*100):0, pts:r.pts, max, fecha:r.fecha};
+          }
+        }
+      }
+      return {idx, estado:"invalido"};
+    });
+    const okN = res.filter(r=>r.estado==="ok"||r.estado==="eq").length, dupN = res.filter(r=>r.estado==="dup").length, badN = res.length-okN-dupN;
+    const filasHTML = res.map(r=>{
+      if(r.estado==="ok" || r.estado==="dup" || r.estado==="eq"){
+        const marca = r.estado==="dup" ? ` <span style="color:var(--bad);font-weight:700">⚠ código repetido (fila ${r.dupDe}) — posible copia</span>` : r.estado==="eq" ? ` <span style="color:var(--muted)">✔ mismo equipo que fila ${r.dupDe}</span>` : ` <span style="color:var(--ok)">✔</span>`;
+        return `<tr><td style="color:var(--muted)">${r.idx+1}</td><td>${esc(r.nombre)}</td><td>${esc(r.prac)}</td><td style="font-variant-numeric:tabular-nums"><b>${r.calif}</b> (${r.pts}/${r.max})</td><td>${esc(r.fecha)}${marca}</td></tr>`;
+      }
+      const txt = r.estado==="sin-codigo" ? "sin código en la fila" : "código inválido o nombre no coincide";
+      return `<tr><td style="color:var(--muted)">${r.idx+1}</td><td colspan="3" style="color:var(--bad)">✘ ${txt}</td><td></td></tr>`;
+    }).join("");
+    out.innerHTML = `
+      <div class="val-out" style="background:var(--surface2)"><b>${okN} válidos</b> · ${dupN} repetidos · ${badN} con problema, de ${res.length} filas
+      <div style="overflow-x:auto;margin-top:8px"><table>
+      <tr><td>#</td><td><b>Nombre / Equipo</b></td><td><b>Práctica</b></td><td><b>Calif.</b></td><td><b>Fecha</b></td></tr>${filasHTML}</table></div>
+      <button class="btn btn-ghost" id="mascopy" style="margin-top:10px">Copiar resultados para Excel</button></div>`;
+    document.getElementById("mascopy").addEventListener("click",async ()=>{
+      const tsv = res.map(r=> (r.estado==="ok"||r.estado==="dup"||r.estado==="eq")
+        ? [r.nombre, r.prac, r.calif, r.estado==="dup"?("REPETIDO fila "+r.dupDe):r.estado==="eq"?("OK equipo, fila "+r.dupDe):"OK"].join("\t")
+        : ["", "", "", r.estado==="sin-codigo"?"SIN CÓDIGO":"INVÁLIDO"].join("\t")).join("\n");
+      const b = document.getElementById("mascopy");
+      try{ await navigator.clipboard.writeText(tsv); b.textContent="Copiado ✔ (una fila por alumno, en el mismo orden)"; }
+      catch(e){ b.textContent="No se pudo copiar automáticamente; selecciona la tabla y cópiala manualmente"; }
+    });
   });
   document.getElementById("qrbtn").addEventListener("click",()=>{
     const w = document.getElementById("qrwrap");
