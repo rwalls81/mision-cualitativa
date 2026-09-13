@@ -118,6 +118,19 @@ label{font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:upper
 .toggles label{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);margin:0;cursor:pointer}
 .toggles input{width:auto;margin-top:3px;accent-color:var(--acc)}
 .msg{font-size:.85rem;margin-top:10px;color:var(--muted)}
+.timerwrap{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:-8px 0 14px}
+.timerwrap>div{height:100%;background:var(--clay);border-radius:99px}
+.chip-mode{background:var(--clay-soft);color:var(--clay)}
+.confbar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);margin:-8px 0 12px}
+.confbar .track{flex:1;height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.confbar .track>div{height:100%;background:var(--ok);border-radius:99px;transition:width .3s}
+.opt.sel-pick{border-color:var(--acc);background:var(--acc-soft)}
+.debrief{text-align:left;margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.debrief .dstep{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.88rem;background:var(--surface)}
+.debrief .dstep b{display:block;margin-bottom:3px}
+.duelturn{border-radius:12px;padding:10px 14px;margin-bottom:12px;font-weight:700;text-align:center;font-size:1.05rem}
+.duelscore{display:flex;justify-content:center;gap:22px;font-size:.9rem;margin-bottom:10px;color:var(--muted)}
+.duelscore b{font-variant-numeric:tabular-nums;color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -201,7 +214,7 @@ o:[{t:"El sistema de información de mercadotecnia (SIM), junto al subsistema in
 {t:"El área de ventas, porque de ahí salen los reportes.",p:0,f:"Los reportes de ventas alimentan el subsistema interno; la investigación de mercados es otro subsistema del SIM, con enfoque estratégico."}]}
 ]},
 {
-id:"T2", seccion:"tema", etiqueta:"Tema 2 · Métodos de recolección de datos cualitativos", modo:"individual",
+id:"T2", seccion:"tema", etiqueta:"Tema 2 · Métodos de recolección de datos cualitativos", modo:"individual", mj:"tiempo",
 titulo:"Elige tu técnica",
 desc:"Ocho encargos reales, seis técnicas posibles: observación, entrevista, sesión de grupo, panel, mystery shopper y proyectivas.",
 contexto:"La consultora recibió varios encargos de negocios sonorenses. Tu tarea es asignar a cada necesidad de información la técnica de recolección cualitativa más adecuada, y demostrar que conoces sus reglas.",
@@ -248,7 +261,8 @@ o:[{t:"Contar con autorización del establecimiento, no grabar rostros sin permi
 {t:"Publicar los videos en redes como evidencia del trabajo.",p:0,f:"Los registros de campo son confidenciales: se usan para el análisis, nunca para exhibir a personas."}]}
 ]},
 {
-id:"T3", seccion:"tema", etiqueta:"Tema 3 · Proceso de investigación de mercados", modo:"individual",
+id:"T3", seccion:"tema", etiqueta:"Tema 3 · Proceso de investigación de mercados", modo:"individual", mj:"consec",
+csq:["El estudio nació torcido: el cliente nunca supo con claridad qué se estaba investigando.","Sin objetivos claros, el equipo de campo recolectó de todo… y nada útil.","Gastaron dos semanas descubriendo lo que INEGI ya publicaba gratis.","Sin supuesto de trabajo, la guía de entrevista salió sin rumbo.","El diseño equivocado hizo que las técnicas no respondieran al objetivo.","La confusión de fuentes hizo dudar de la seriedad de todo el reporte.","Entrevistaron a quien estaba a la mano, no a quien explicaba el problema.","El instrumento rígido cortó las historias justo cuando se ponían buenas.","Sin piloto ni consentimiento, dos entrevistas se perdieron y una fue impugnada.","Las conclusiones no se sostuvieron: nadie pudo rastrearlas hasta una cita real.","El cliente descubrió las limitaciones ocultas… y cuestionó todo lo demás."],
 titulo:"El proceso maestro",
 desc:"Acompaña a “Dulces La Uresana” por los pasos del proceso de investigación con enfoque cualitativo, del planteamiento a las limitaciones.",
 contexto:"“Dulces La Uresana”, fábrica artesanal de Ures, vende bien a familias y turistas, pero casi nada a los jóvenes de Hermosillo. Te contrataron para dirigir el proceso completo de investigación cualitativa. Cada paso del proceso es una decisión.",
@@ -489,7 +503,7 @@ o:[{t:"Longitudinalmente: comparar cómo cambiaron las valoraciones de los MISMO
 {t:"Usar solo los reportes de la última semana, que son 'los más maduros'.",p:0,f:"Quedarse con la última semana desperdicia el seguimiento: eso se lograba con una encuesta única, sin 8 semanas de panel."}]}
 ]},
 {
-id:"P6", seccion:"practica", etiqueta:"Práctica 6 · Comprador misterioso", modo:"equipo",
+id:"P6", seccion:"practica", etiqueta:"Práctica 6 · Comprador misterioso", modo:"equipo", mj:"final",
 titulo:"Operación Río Sonora",
 desc:"Una red de expendios de productos regionales en la Ruta del Río Sonora pide evaluar la experiencia de compra real.",
 contexto:"La red “Sabores del Río” tiene expendios en Baviácora, Aconchi y Banámichi. La dueña sospecha que la experiencia de compra varía mucho entre tiendas. Su equipo ejecutará un estudio de comprador misterioso (mystery shopper).",
@@ -619,6 +633,12 @@ function portada(){
   window.scrollTo(0,0);
 }
 
+const MJ = {tiempo:"⏱ Contrarreloj", consec:"🧭 Consecuencias", final:"🎓 Sin red"};
+const MJDESC = {
+ tiempo:"Tienes 25 segundos por decisión. Correcta en los primeros 12 segundos = 10 puntos; correcta después = 7; si el tiempo se agota, la decisión se pierde.",
+ consec:"Cada error reduce la confianza del cliente. Al final recibirás el informe de lo que le pasó al estudio por cada paso fallado.",
+ final:"Sin red: no hay retroalimentación entre preguntas. Respondes todo y al final recibes el análisis completo de tus decisiones, como en el campo real."};
+
 function home(){
   state=null;
   if(!claveOk()){ portada(); return; }
@@ -642,6 +662,7 @@ function home(){
       <div class="row1">
         <span class="chip ${s.modo==="equipo"?"chip-eq":"chip-ind"}">${s.modo==="equipo"?"Equipo":"Individual"}</span>
         <span class="chip chip-best">${esc(s.etiqueta)}</span>
+        ${s.mj?`<span class="chip chip-mode">${MJ[s.mj]}</span>`:""}
         ${!on?`<span class="chip chip-lock">Oculta para alumnos</span>`:""}
         ${best?`<span class="chip chip-best">Mejor: ${best}%</span>`:""}
       </div>
@@ -661,8 +682,16 @@ function home(){
     <div class="cards">${secTema.map(card).join("")}</div>
     <div class="sect"><h2>Misiones por práctica</h2><p class="sub">Modo equipo · un celular por equipo, decidan juntos</p></div>
     <div class="cards">${secPrac.map(card).join("")}</div>
+    <div class="sect"><h2>Zona de duelo</h2><p class="sub">Para jugar en clase · dos equipos · sin código de evidencia</p></div>
+    <div class="cards"><button class="card" id="goDuel">
+      <div class="row1"><span class="chip chip-eq">⚔ Duelo relámpago</span><span class="chip chip-best">Todas las misiones activas</span></div>
+      <h3>Equipo contra equipo</h3>
+      <p class="desc">10 preguntas al azar de las misiones desbloqueadas, por turnos y con marcador. Un solo celular o la pantalla del aula.</p>
+      <span class="meta">10–15 min · solo por la gloria (no genera código)</span>
+    </button></div>
     <div class="linkrow"><button class="linkbtn" id="goDoc">Acceso docente</button></div>`;
   $app.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>intro(b.dataset.go)));
+  document.getElementById("goDuel").addEventListener("click",dueloIntro);
   document.getElementById("goDoc").addEventListener("click",docente);
   window.scrollTo(0,0);
 }
@@ -676,6 +705,7 @@ function intro(id){
       <span class="kicker">${esc(s.etiqueta)} · Modo ${equipo?"equipo":"individual"}</span>
       <h1>${esc(s.titulo)}</h1>
       <div class="ctx"><span class="ct">Tu misión</span>${esc(s.contexto)}</div>
+      ${s.mj?`<div class="ctx"><span class="ct">${MJ[s.mj]} · modo de juego</span>${MJDESC[s.mj]}</div>`:""}
       <p class="note">${s.pasos.length} decisiones · Cada una vale hasta 10 puntos · Al final recibes tu nivel y un código de evidencia para entregar al profesor.</p>
     </div>
     <form id="frm">
@@ -694,7 +724,7 @@ function intro(id){
     </form>`;
   document.getElementById("back").addEventListener("click",home);
   const start = (quien,grupo,qcode)=>{
-    state = {s, i:0, score:0, ok:0, mid:0, bad:0, quien, grupo, qcode: qcode||quien,
+    state = {s, i:0, score:0, ok:0, mid:0, bad:0, quien, grupo, qcode: qcode||quien, log:[], timer:null,
       orden: s.pasos.map(p=>{ const idx=p.o.map((_,k)=>k); for(let j=idx.length-1;j>0;j--){const r=Math.floor(Math.random()*(j+1));[idx[j],idx[r]]=[idx[r],idx[j]];} return idx; })};
     paso();
   };
@@ -717,6 +747,8 @@ function paso(){
     <div class="topbar"><div class="brand"><span class="t">${esc(s.titulo)}</span><span class="s">${esc(s.etiqueta)}</span></div>
     <span class="qcount">${i+1} / ${s.pasos.length}</span></div>
     <div class="progress"><div style="width:${pct}%"></div></div>
+    ${s.mj==="tiempo"?`<div class="timerwrap"><div id="tbar" style="width:100%"></div></div>`:""}
+    ${s.mj==="consec"?(()=>{const conf=Math.max(0,100-(state.bad*9+state.mid*4));return `<div class="confbar"><span>Confianza del cliente</span><div class="track"><div style="width:${conf}%"></div></div><span><b>${conf}%</b></span></div>`;})():""}
     <div class="situ">
       ${p.s.startsWith("Paso")?`<div class="paso">${esc(p.s.split(".")[0])}</div><p>${esc(p.s.split(".").slice(1).join(".").trim())}</p>`:`<p>${esc(p.s)}</p>`}
       <p class="preg">${esc(p.q)}</p>
@@ -726,15 +758,52 @@ function paso(){
     </div>
     <div id="fb"></div>`;
   document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>elegir(parseInt(b.dataset.k,10),b)));
+  if(s.mj==="tiempo"){
+    state.qStart = Date.now();
+    const tb = document.getElementById("tbar");
+    state.timer = setInterval(()=>{
+      const left = 25 - (Date.now()-state.qStart)/1000;
+      if(tb) tb.style.width = Math.max(0, left/25*100) + "%";
+      if(left <= 0){ clearInterval(state.timer); state.timer=null; agotado(); }
+    }, 100);
+  }
   window.scrollTo(0,0);
+}
+
+function avanzar(){ state.i++; state.i < state.s.pasos.length ? paso() : resultado(); }
+
+function agotado(){
+  const {s,i} = state;
+  const p = s.pasos[i];
+  state.bad++; state.log.push({i, k:-1, p:0, pts:0});
+  document.querySelectorAll(".opt").forEach(b=>{ b.disabled=true; const kk=parseInt(b.dataset.k,10); if(p.o[kk].p>=10) b.classList.add("reveal-ok"); });
+  const best = p.o.find(o=>o.p>=10);
+  document.getElementById("fb").innerHTML = `
+    <div class="feedback fb-bad"><span class="fb-tag">⏱ Se agotó el tiempo · +0 pts</span>La correcta era la opción marcada. ${esc(best.f)}</div>
+    <div class="nav-next"><button class="btn btn-acc" id="next">${i+1<s.pasos.length?"Siguiente decisión →":"Ver mi resultado"}</button></div>`;
+  const nx = document.getElementById("next");
+  nx.addEventListener("click", avanzar);
+  nx.focus();
 }
 
 function elegir(k, btn){
   const {s,i} = state;
   const p = s.pasos[i];
   const op = p.o[k];
-  state.score += op.p;
+  if(state.timer){ clearInterval(state.timer); state.timer=null; }
+  let pts = op.p, veloz = true;
+  if(s.mj==="tiempo" && op.p>=10){
+    const el = (Date.now()-state.qStart)/1000;
+    if(el > 12){ pts = 7; veloz = false; }
+  }
+  state.score += pts;
   if(op.p>=10){state.ok++;} else if(op.p>0){state.mid++;} else {state.bad++;}
+  state.log.push({i, k, p:op.p, pts});
+  if(s.mj==="final"){
+    document.querySelectorAll(".opt").forEach(b=>{ b.disabled=true; if(parseInt(b.dataset.k,10)===k) b.classList.add("sel-pick"); });
+    setTimeout(avanzar, 450);
+    return;
+  }
   document.querySelectorAll(".opt").forEach(b=>{
     b.disabled = true;
     const kk = parseInt(b.dataset.k,10);
@@ -742,12 +811,14 @@ function elegir(k, btn){
     else if(p.o[kk].p>=10 && op.p<10) b.classList.add("reveal-ok");
   });
   const cls = op.p>=10?"fb-ok":op.p>0?"fb-mid":"fb-bad";
-  const tag = op.p>=10?"✔ Decisión correcta · +10 pts":op.p>0?"◐ Parcialmente correcta · +"+op.p+" pts":"✘ Decisión equivocada · +0 pts";
+  let tag;
+  if(op.p>=10 && s.mj==="tiempo") tag = veloz ? "✔ Correcta y veloz · +10 pts" : "✔ Correcta, pero lenta · +7 pts";
+  else tag = op.p>=10?"✔ Decisión correcta · +10 pts":op.p>0?"◐ Parcialmente correcta · +"+op.p+" pts":"✘ Decisión equivocada · +0 pts";
   document.getElementById("fb").innerHTML = `
     <div class="feedback ${cls}"><span class="fb-tag">${tag}</span>${esc(op.f)}</div>
     <div class="nav-next"><button class="btn btn-acc" id="next">${i+1<s.pasos.length?"Siguiente decisión →":"Ver mi resultado"}</button></div>`;
   const nx = document.getElementById("next");
-  nx.addEventListener("click",()=>{ state.i++; state.i<s.pasos.length? paso() : resultado(); });
+  nx.addEventListener("click", avanzar);
   nx.focus();
 }
 
@@ -759,6 +830,18 @@ function resultado(){
   const prev = parseInt(lsGet(bestKey(s.id))||"0",10);
   if(pct>prev) lsSet(bestKey(s.id), String(pct));
   const fecha = new Date().toISOString().slice(0,10);
+  let extraHTML = "";
+  if(s.mj==="consec"){
+    const fallas = state.log.filter(l=>l.p===0).map(l=>s.csq && s.csq[l.i]).filter(Boolean);
+    extraHTML = `<div class="debrief"><div class="dstep" style="background:var(--surface2)"><b>📋 Informe del cliente</b>${fallas.length? fallas.map(f=>`<div>• ${esc(f)}</div>`).join("") : "El cliente firmó el estudio sin una sola objeción: proceso impecable."}</div></div>`;
+  }
+  if(s.mj==="final"){
+    extraHTML = `<div class="debrief">${state.log.map(l=>{
+      const P = s.pasos[l.i]; const best = P.o.find(o=>o.p>=10);
+      const ic = l.p>=10?"✔":l.p>0?"◐":"✘";
+      return `<div class="dstep"><b>${ic} Decisión ${l.i+1} · +${l.pts} pts</b>${l.p>=10? esc(best.f) : `La correcta era: “${esc(best.t)}” — ${esc(best.f)}`}</div>`;
+    }).join("")}</div>`;
+  }
   let codeHTML = "";
   let code = null;
   if(quien){
@@ -778,6 +861,7 @@ function resultado(){
       <div class="nivel">${niv}</div>
       <p class="de">${esc(msg)}</p>
       <div class="stats"><span>Correctas <b>${ok}</b></span><span>Parciales <b>${mid}</b></span><span>Falladas <b>${bad}</b></span></div>
+      ${extraHTML}
       ${codeHTML}
       <div class="actions">
         <button class="btn btn-acc btn-block" id="otra">Elegir otra misión</button>
@@ -791,6 +875,94 @@ function resultado(){
   });
   document.getElementById("otra").addEventListener("click",home);
   document.getElementById("rep").addEventListener("click",()=>intro(s.id));
+  window.scrollTo(0,0);
+}
+
+function dueloIntro(){
+  state = null;
+  $app.innerHTML = `
+    <button class="back" id="back">← Volver al inicio</button>
+    <div class="hero" style="margin-top:10px">
+      <span class="kicker">⚔ Duelo relámpago · juego de aula</span>
+      <h1>Equipo contra equipo</h1>
+      <div class="ctx"><span class="ct">Cómo se juega</span>10 preguntas al azar de las misiones activas. Los equipos responden por turnos en el mismo dispositivo; cada acierto suma puntos a su marcador. Sin código de evidencia: aquí se juega por la gloria.</div>
+    </div>
+    <form id="dfrm">
+      <div class="field"><label for="da">Equipo A</label><input id="da" maxlength="30" placeholder="Nombre del primer equipo" autocomplete="off"></div>
+      <div class="field"><label for="db">Equipo B</label><input id="db" maxlength="30" placeholder="Nombre del segundo equipo" autocomplete="off"></div>
+      <button type="submit" class="btn btn-clay btn-block">¡Que empiece el duelo!</button>
+    </form>`;
+  document.getElementById("back").addEventListener("click",home);
+  document.getElementById("dfrm").addEventListener("submit",e=>{
+    e.preventDefault();
+    const a = document.getElementById("da").value.trim() || "Equipo A";
+    const b = document.getElementById("db").value.trim() || "Equipo B";
+    const pool = SCN.filter(x=>activo(x.id)||esDocente()).flatMap(x=>x.pasos);
+    if(pool.length < 4){ alert("Aún no hay suficientes misiones activas para un duelo."); return; }
+    for(let j=pool.length-1;j>0;j--){ const r=Math.floor(Math.random()*(j+1)); [pool[j],pool[r]]=[pool[r],pool[j]]; }
+    state = {duel:true, teams:[a,b], sc:[0,0], i:0, qs:pool.slice(0, Math.min(10,pool.length))};
+    dueloPaso();
+  });
+  window.scrollTo(0,0);
+}
+
+function dueloPaso(){
+  const p = state.qs[state.i], turn = state.i % 2;
+  const idx = p.o.map((_,k)=>k);
+  for(let j=idx.length-1;j>0;j--){ const r=Math.floor(Math.random()*(j+1)); [idx[j],idx[r]]=[idx[r],idx[j]]; }
+  $app.innerHTML = `
+    <div class="topbar"><div class="brand"><span class="t">⚔ Duelo relámpago</span><span class="s">Pregunta ${state.i+1} de ${state.qs.length}</span></div></div>
+    <div class="duelscore"><span>${esc(state.teams[0])}: <b>${state.sc[0]}</b></span><span>${esc(state.teams[1])}: <b>${state.sc[1]}</b></span></div>
+    <div class="duelturn" style="background:${turn===0?"var(--acc-soft)":"var(--clay-soft)"};color:${turn===0?"var(--acc)":"var(--clay)"}">Turno de ${esc(state.teams[turn])}</div>
+    <div class="situ"><p>${esc(p.s)}</p><p class="preg">${esc(p.q)}</p></div>
+    <div class="opts">${idx.map(k=>`<button class="opt" data-k="${k}">${esc(p.o[k].t)}</button>`).join("")}</div>
+    <div id="fb"></div>`;
+  document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>dueloElegir(parseInt(b.dataset.k,10))));
+  window.scrollTo(0,0);
+}
+
+function dueloElegir(k){
+  const p = state.qs[state.i], turn = state.i % 2, op = p.o[k];
+  state.sc[turn] += op.p;
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.disabled = true;
+    const kk = parseInt(b.dataset.k,10);
+    if(kk===k) b.classList.add(op.p>=10?"sel-ok":op.p>0?"sel-mid":"sel-bad");
+    else if(p.o[kk].p>=10 && op.p<10) b.classList.add("reveal-ok");
+  });
+  const cls = op.p>=10?"fb-ok":op.p>0?"fb-mid":"fb-bad";
+  const tag = op.p>=10?`✔ +10 pts para ${esc(state.teams[turn])}`:op.p>0?`◐ +${op.p} pts para ${esc(state.teams[turn])}`:`✘ 0 pts — turno perdido`;
+  document.getElementById("fb").innerHTML = `
+    <div class="feedback ${cls}"><span class="fb-tag">${tag}</span>${esc(op.f)}</div>
+    <div class="nav-next"><button class="btn btn-acc" id="next">${state.i+1<state.qs.length?"Siguiente pregunta →":"Ver el marcador final"}</button></div>`;
+  const nx = document.getElementById("next");
+  nx.addEventListener("click",()=>{ state.i++; state.i<state.qs.length ? dueloPaso() : dueloFin(); });
+  nx.focus();
+}
+
+function dueloFin(){
+  const [a,b] = state.sc;
+  const empate = a===b;
+  const gIdx = a>=b?0:1;
+  $app.innerHTML = `
+    <div class="result">
+      <span class="kicker">⚔ Duelo terminado</span>
+      <div class="nivel">${empate? "¡Empate de consultores!" : "🏆 Gana " + esc(state.teams[gIdx])}</div>
+      <div class="stats" style="font-size:1.05rem"><span>${esc(state.teams[0])} <b>${a}</b></span><span>${esc(state.teams[1])} <b>${b}</b></span></div>
+      <p class="de">${empate? "Nadie cede: definición por muerte súbita — una pregunta más, la decide el profesor." : "El duelo no genera código de evidencia: el premio es presumirlo."}</p>
+      <div class="actions">
+        <button class="btn btn-clay btn-block" id="rev">Revancha (nuevas preguntas)</button>
+        <button class="btn btn-ghost btn-block" id="volver">Volver al inicio</button>
+      </div>
+    </div>`;
+  const t = state.teams;
+  document.getElementById("rev").addEventListener("click",()=>{
+    const pool = SCN.filter(x=>activo(x.id)||esDocente()).flatMap(x=>x.pasos);
+    for(let j=pool.length-1;j>0;j--){ const r=Math.floor(Math.random()*(j+1)); [pool[j],pool[r]]=[pool[r],pool[j]]; }
+    state = {duel:true, teams:[t[1],t[0]], sc:[0,0], i:0, qs:pool.slice(0, Math.min(10,pool.length))};
+    dueloPaso();
+  });
+  document.getElementById("volver").addEventListener("click",home);
   window.scrollTo(0,0);
 }
 
